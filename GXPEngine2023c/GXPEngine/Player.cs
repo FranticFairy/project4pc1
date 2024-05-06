@@ -19,7 +19,7 @@ public class Player : AnimationSprite
     public float xPos;
     public float yPos;
 
-    private float jumpSpeed = 5f;
+    private float jumpSpeed = 7f;
     private float gravity = .2f;
 
     private bool isGrounded;
@@ -75,12 +75,12 @@ public class Player : AnimationSprite
 
         velocity.y += gravity;
         isGrounded = false;
-        if (yPos > 500)
+        if (MoveUntilCollision(0, velocity.y) != null)
         {
             velocity.y = 0;
             isGrounded = true;
             coyoteTime = coyoteTimeMax;
-            yPos = 500;
+            //yPos = 500;
         }
 
         if (!isGrounded && coyoteTime > 0) coyoteTime--;
