@@ -28,7 +28,7 @@ public class Player : AnimationSprite
     private int coyoteTime;
     private int coyoteTimeMax = 10;
 
-
+    private int goo = 1;
 
 
 
@@ -111,9 +111,23 @@ public class Player : AnimationSprite
     void Update()
     {
         MovePlayer();
+        checkCollision();
+        Constants.goo = goo;
 
     }
 
+    void checkCollision()
+    {
+        GameObject[] collisions = GetCollisions();
+        for (int i = 0; i < collisions.Length; i++)
+        {
+            if (collisions[i].GetType() == typeof(Collectable))
+            {
+                goo++;
+                collisions[i].LateDestroy();
+            }
+        }
+    }
 
 
 }

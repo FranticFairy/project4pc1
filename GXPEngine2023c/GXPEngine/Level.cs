@@ -9,15 +9,21 @@ using TiledMapParser;
 public class Level : GameObject
 {
     Player player;
+    Collectable item;
+    UI ui;
     public Level()
     {
 
         player = new Player();
         player.xPos = 400;
-        player.yPos = 400;
+        player.yPos = 200;
         AddChild(player);
 
+        item = new Collectable(200,400);
+        AddChild(item);
 
+        ui = new UI();
+        AddChild(ui);
     }
 
     //public void HandleScroll()
@@ -40,7 +46,7 @@ public class Level : GameObject
 
     void Update()
     {
-
+        ui.updateHUD();
 
 
     }
