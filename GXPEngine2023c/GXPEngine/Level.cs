@@ -8,9 +8,6 @@ using TiledMapParser;
 
 public class Level : GameObject
 {
-    Player player;
-    Collectable item;
-    UI ui;
     private int xBoundarySize = 200;    // player distance until scrolling
     private int yBoundarySize = 200;    // same but y
 
@@ -20,13 +17,13 @@ public class Level : GameObject
 
     private Player player;
     private Sprite background;
+    private Collectable item;
+    private UI ui;
 
 
 
     public Level()
     {
-        player.xPos = 400;
-        player.yPos = 200;
         player = new Player(new Vec2(400,400));
         AddChild(player);
 
