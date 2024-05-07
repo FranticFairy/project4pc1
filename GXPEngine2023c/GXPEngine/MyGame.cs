@@ -12,8 +12,17 @@ public class MyGame : Game {
 
 	void Update() 
 	{
-		
-	}
+        if (Constants.dead)
+        {
+			foreach(var child in GetChildren())
+			{
+				child.Destroy();
+            }
+            Level level = new Level();
+            AddChild(level);
+            Constants.dead = false;
+        }
+    }
 
 	static void Main()                          
 	{

@@ -19,6 +19,7 @@ public class Level : GameObject
     private Sprite background;
     private UI ui;
     private Collectable item;
+    private Killer killer;
 
 
 
@@ -43,6 +44,9 @@ public class Level : GameObject
 
         item = new Collectable(200, 800);
         AddChild(item);
+
+        killer = new Killer(800, 800);
+        AddChild(killer);
 
         ui = new UI();
         AddChild(ui);
@@ -70,6 +74,7 @@ public class Level : GameObject
     {
 
         HandleScroll();
+        ui.updateHUD();
 
     }
 }

@@ -39,6 +39,8 @@ public class Player : AnimationSprite
     private int coyoteTime;
     private int coyoteTimeMax = 10;
 
+    private int goo;
+
 
     public Player(Vec2 pos, string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
@@ -177,11 +179,30 @@ public class Player : AnimationSprite
 
         if (!Input.GetKey(Key.O) || counter >= 60) {
 
+            Constants.goo = goo;
             MovePlayer();
             Shooting();
             counter = 0;
+            checkCollision();
         }
 
+    }
+
+    void checkCollision()
+    {
+        GameObject[] collisions = GetCollisions();
+        for (int i = 0; i < collisions.Length; i++)
+        {
+            if (collisions[i].GetType() == typeof(Collectable))
+            {
+                goo++;
+                collisions[i].LateDestroy();
+            }
+            if (collisions[i].GetType() == typeof(Killer))
+            {
+                Constants.dead = true;
+            }
+        }
     }
 
 

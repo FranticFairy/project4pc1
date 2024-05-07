@@ -11,6 +11,8 @@ namespace GXPEngine
         public static UI ui;
         //highScore will be reworked later.
         public static int goo;
+
+        public static bool dead;
     }
 
 }

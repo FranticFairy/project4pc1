@@ -14,11 +14,12 @@ namespace GXPEngine
         public float xPos;
         public float yPos;
 
-        public Collectable(float xPos, float yPos, string fileName = "circle.png", int cols = 1, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
+        public Collectable(float xPos, float yPos, string fileName = "goo.png", int cols = 1, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
         {
 
             SetOrigin(width / 2, height / 2);
             SetXY(xPos, yPos);
+            collider.isTrigger = true;
 
         }
 
