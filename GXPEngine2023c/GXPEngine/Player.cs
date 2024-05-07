@@ -16,11 +16,22 @@ public class Player : AnimationSprite
 
     private float xMaxSpeed = 5f;
 
-    public float xPos;
-    public float yPos;
+
+    private float minShootForce = 4f;       // min force applied to proj
+    private float maxShootForce = 9f;       // max force applied to proj
+    private float minShootMouseDist = 70f;  // moving mouse closer than this value in pixels to player doesn't decrease power anymore
+    private float maxShootMouseDist = 300f; // same but the other side
+
+    private int aimTrajectoryAmount = 5;    // amount of white circles for aim trajectory
+    private int aimTrajectoryDist = 5;      // amount of frames between the circles
+
 
     private float jumpSpeed = 7f;
     private float gravity = .2f;
+
+    private Level level;
+
+    public Vec2 position;
 
     private bool isGrounded;
     public bool isSprinting;
@@ -28,14 +39,14 @@ public class Player : AnimationSprite
     private int coyoteTime;
     private int coyoteTimeMax = 10;
 
-    private int goo = 1;
 
-
-
-    public Player(string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
+    public Player(Vec2 pos, string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
 
         SetOrigin(width / 2, height / 2);
+        position = pos;
+
+        level = game.FindObjectOfType<Level>();
 
     }
 
@@ -50,13 +61,11 @@ public class Player : AnimationSprite
 
         if (Input.GetKey(Key.A))
         {
-
             velocity.x -= acceleration;
             Mirror(true, false);
         }
         else if (Input.GetKey(Key.D))
         {
-
             velocity.x += acceleration;
             Mirror(false, false);
         }
@@ -70,17 +79,14 @@ public class Player : AnimationSprite
 
 
 
-
-
-
         velocity.y += gravity;
         isGrounded = false;
-        if (MoveUntilCollision(0, velocity.y) != null)
+        if (MoveUntilCollision(0, velocity.y) != null /*|| position.y > 500*/)
         {
             velocity.y = 0;
             isGrounded = true;
             coyoteTime = coyoteTimeMax;
-            //yPos = 500;
+            //position.y = 500;
         }
 
         if (!isGrounded && coyoteTime > 0) coyoteTime--;
@@ -92,42 +98,92 @@ public class Player : AnimationSprite
 
         }
 
+        position += velocity;
 
-        xPos += velocity.x;
-        yPos += velocity.y;
 
-        x = xPos;
-        y = yPos;
-       
+        x = position.x; 
+        y = position.y;
+
+        //Console.WriteLine("Player coordinates: " + position);
 
         Animate(.1f);
     }
 
+    private Vec2 getProjVec(Level l)
+    {
+        Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
+        Vec2 levelPos = new Vec2(l.x, l.y);
+        Vec2 deltaPos = mousePos - (position + levelPos);
+
+        float shootPower = Mathf.Clamp(deltaPos.Length(), minShootMouseDist, maxShootMouseDist);
+        shootPower -= minShootMouseDist;
+        shootPower *= (maxShootForce - minShootForce) / maxShootMouseDist;
+        shootPower += minShootForce;
+
+        /*Console.WriteLine("deltaPos: "+deltaPos);
+        /*Console.WriteLine("shoot");
+        Console.WriteLine(" ");
+        Console.WriteLine("mousePos = "+mousePos);
+        Console.WriteLine("position = "+position);
+        Console.WriteLine("deltaPos = "+deltaPos);
+        Console.WriteLine("level pos = "+level.x+" "+level.y);
+        Console.WriteLine("shootPower = "+shootPower);
+        Console.WriteLine("projVec = "+projVec);
+        Console.WriteLine(" ");*/
+
+        return deltaPos.Normalized() * shootPower;
+    }
+
+    void Shooting()
+    {
+        level = game.FindObjectOfType<Level>();
+        AimTrajectory[] foundAimTraj = game.FindObjectsOfType<AimTrajectory>();
+        foreach (AimTrajectory aimTrajectory in foundAimTraj)
+        {
+            aimTrajectory.LateDestroy();
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            for (int i = 0; i < aimTrajectoryAmount; i++)
+            {
+                level.AddChild(new AimTrajectory(getProjVec(level), position));
+                AimTrajectory[] foundAimTrajec = game.FindObjectsOfType<AimTrajectory>();
+                foreach (AimTrajectory aimTrajec in foundAimTrajec)
+                {
+                    for (int j = 0; j < aimTrajectoryDist; j++)
+                    {
+                        aimTrajec.Step();
+                    }
+                }
+            }
+
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            level.AddChild(new Projectile(getProjVec(level), position));
+        }
+
+    }
 
 
 
-
+    int counter;
 
     void Update()
     {
-        MovePlayer();
-        checkCollision();
-        Constants.goo = goo;
 
-    }
+        counter++;
 
-    void checkCollision()
-    {
-        GameObject[] collisions = GetCollisions();
-        for (int i = 0; i < collisions.Length; i++)
-        {
-            if (collisions[i].GetType() == typeof(Collectable))
-            {
-                goo++;
-                collisions[i].LateDestroy();
-            }
+        if (!Input.GetKey(Key.O) || counter >= 60) {
+
+            MovePlayer();
+            Shooting();
+            counter = 0;
         }
+
     }
+
 
 
 }

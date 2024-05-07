@@ -11,12 +11,23 @@ public class Level : GameObject
     Player player;
     Collectable item;
     UI ui;
+    private int xBoundarySize = 200;    // player distance until scrolling
+    private int yBoundarySize = 200;    // same but y
+
+    private float levelWidth = 2000;
+    private float levelHeight = 1000;
+
+
+    private Player player;
+    private Sprite background;
+
+
+
     public Level()
     {
-
-        player = new Player();
         player.xPos = 400;
         player.yPos = 200;
+        player = new Player(new Vec2(400,400));
         AddChild(player);
 
         item = new Collectable(200,400);
