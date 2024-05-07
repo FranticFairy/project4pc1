@@ -12,4 +12,5 @@ namespace GXPEngine
         //highScore will be reworked later.
         public static int goo;
     }
+
 }

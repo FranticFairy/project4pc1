@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AimTrajectory.cs" />
+    <Compile Include="Collectable.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="SimplePlatform.cs" />
+    <Compile Include="UI.cs" />
     <Compile Include="Vec2.cs" />
   </ItemGroup>
   <ItemGroup>
