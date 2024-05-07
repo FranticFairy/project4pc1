@@ -18,10 +18,13 @@ public class Projectile : Sprite
         y = pos.y;
     }
 
-
+    void Update()
+    {
+        Step();
+    }
     int counter;
 
-    void Update()
+    public void Step()
     {
 
         counter++;

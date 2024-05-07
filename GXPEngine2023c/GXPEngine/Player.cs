@@ -16,9 +16,14 @@ public class Player : AnimationSprite
 
     private float xMaxSpeed = 5f;
 
-    private float minShootPower = 4f;
-    private float maxShootPower = 9f;
-    private float revShootPwrMulti = 25f; // bigger number -> further aim for same result
+
+    private float minShootForce = 4f;       // min force applied to proj
+    private float maxShootForce = 9f;       // max force applied to proj
+    private float minShootMouseDist = 70f;  // moving mouse closer than this value in pixels to player doesn't decrease power anymore
+    private float maxShootMouseDist = 300f; // same but the other side
+
+    private int aimTrajectoryAmount = 5;    // amount of white circles for aim trajectory
+    private int aimTrajectoryDist = 5;      // amount of frames between the circles
 
 
     private float jumpSpeed = 7f;
@@ -33,9 +38,6 @@ public class Player : AnimationSprite
 
     private int coyoteTime;
     private int coyoteTimeMax = 10;
-
-
-
 
 
     public Player(Vec2 pos, string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
@@ -107,34 +109,59 @@ public class Player : AnimationSprite
         Animate(.1f);
     }
 
+    private Vec2 getProjVec(Level l)
+    {
+        Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
+        Vec2 levelPos = new Vec2(l.x, l.y);
+        Vec2 deltaPos = mousePos - (position + levelPos);
+
+        float shootPower = Mathf.Clamp(deltaPos.Length(), minShootMouseDist, maxShootMouseDist);
+        shootPower -= minShootMouseDist;
+        shootPower *= (maxShootForce - minShootForce) / maxShootMouseDist;
+        shootPower += minShootForce;
+
+        /*Console.WriteLine("deltaPos: "+deltaPos);
+        /*Console.WriteLine("shoot");
+        Console.WriteLine(" ");
+        Console.WriteLine("mousePos = "+mousePos);
+        Console.WriteLine("position = "+position);
+        Console.WriteLine("deltaPos = "+deltaPos);
+        Console.WriteLine("level pos = "+level.x+" "+level.y);
+        Console.WriteLine("shootPower = "+shootPower);
+        Console.WriteLine("projVec = "+projVec);
+        Console.WriteLine(" ");*/
+
+        return deltaPos.Normalized() * shootPower;
+    }
 
     void Shooting()
     {
-
-        if (Input.GetKeyDown(Key.L))
+        level = game.FindObjectOfType<Level>();
+        AimTrajectory[] foundAimTraj = game.FindObjectsOfType<AimTrajectory>();
+        foreach (AimTrajectory aimTrajectory in foundAimTraj)
         {
-            level = game.FindObjectOfType<Level>();
-            Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
-            Vec2 levelPos = new Vec2(level.x, level.y);
-            Vec2 deltaPos = mousePos - (position+levelPos);
-            float shootPower = Mathf.Clamp(deltaPos.Length()/revShootPwrMulti, minShootPower, maxShootPower);
+            aimTrajectory.LateDestroy();
+        }
 
-            Vec2 projVec = deltaPos.Normalized()*shootPower;
+        if (Input.GetMouseButton(0))
+        {
+            for (int i = 0; i < aimTrajectoryAmount; i++)
+            {
+                level.AddChild(new AimTrajectory(getProjVec(level), position));
+                AimTrajectory[] foundAimTrajec = game.FindObjectsOfType<AimTrajectory>();
+                foreach (AimTrajectory aimTrajec in foundAimTrajec)
+                {
+                    for (int j = 0; j < aimTrajectoryDist; j++)
+                    {
+                        aimTrajec.Step();
+                    }
+                }
+            }
 
-            level.AddChild(new Projectile(projVec, position));
-
-
-            /*Console.WriteLine("shoot");
-            Console.WriteLine(" ");
-            Console.WriteLine("mousePos = "+mousePos);
-            Console.WriteLine("position = "+position);
-            Console.WriteLine("deltaPos = "+deltaPos);
-            Console.WriteLine("level pos = "+level.x+" "+level.y);
-            Console.WriteLine("shootPower = "+shootPower);
-            Console.WriteLine("projVec = "+projVec);
-            Console.WriteLine(" ");*/
-
-
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            level.AddChild(new Projectile(getProjVec(level), position));
         }
 
     }
