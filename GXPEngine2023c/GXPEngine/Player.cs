@@ -26,8 +26,8 @@ public class Player : AnimationSprite
     private int aimTrajectoryDist = 5;      // amount of frames between the circles
 
 
-    private float jumpSpeed = 7f;
-    private float gravity = .2f;
+    private float jumpSpeed = 7f;           // the force propelling you upwards
+    private float gravity = .2f;            // the force pulling you down again
 
     private Level level;
 
@@ -37,7 +37,7 @@ public class Player : AnimationSprite
     public bool isSprinting;
 
     private int coyoteTime;
-    private int coyoteTimeMax = 10;
+    private int coyoteTimeMax = 10;         // number of frames usable for coyote time
 
 
     public Player(Vec2 pos, string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
@@ -50,44 +50,49 @@ public class Player : AnimationSprite
 
     }
 
-
+    //int timeTracker;
     private void MovePlayer()
     {
 
         int deltaTimeClamped = Mathf.Min(Time.deltaTime, 40);
+        float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
+        //deltaTimeFun = 1f;
 
         SetCycle(0, 7);
 
 
         if (Input.GetKey(Key.A))
         {
-            velocity.x -= acceleration;
+            velocity.x -= acceleration*deltaTimeFun;
             Mirror(true, false);
         }
         else if (Input.GetKey(Key.D))
         {
-            velocity.x += acceleration;
+            velocity.x += acceleration*deltaTimeFun;
             Mirror(false, false);
         }
 
 
 
-        if (velocity.x > -deceleration && velocity.x < deceleration) velocity.x = 0;
-        if (velocity.x > 0) velocity.x -= deceleration;
-        if (velocity.x < 0) velocity.x += deceleration;
+        if (velocity.x > -deceleration * deltaTimeFun && 
+            velocity.x <  deceleration * deltaTimeFun) velocity.x = 0;
+        if (velocity.x > 0) velocity.x -= deceleration * deltaTimeFun;
+        if (velocity.x < 0) velocity.x += deceleration * deltaTimeFun;
+
         velocity.x = Mathf.Clamp(velocity.x, -xMaxSpeed, xMaxSpeed);
 
 
-
-        velocity.y += gravity;
+        velocity.y += gravity*deltaTimeFun;
         isGrounded = false;
-        if (MoveUntilCollision(0, velocity.y) != null /*|| position.y > 500*/)
+        if (MoveUntilCollision(0, velocity.y*deltaTimeFun) != null)
         {
             velocity.y = 0;
             isGrounded = true;
             coyoteTime = coyoteTimeMax;
-            //position.y = 500;
+            //if (timeTracker > 0) Console.WriteLine("timeTracker: "+timeTracker);
+            //timeTracker = 0;
         }
+        //else timeTracker += Time.deltaTime;
 
         if (!isGrounded && coyoteTime > 0) coyoteTime--;
 
@@ -98,7 +103,7 @@ public class Player : AnimationSprite
 
         }
 
-        position += velocity;
+        position += velocity*deltaTimeFun;
 
 
         x = position.x; 
@@ -136,6 +141,8 @@ public class Player : AnimationSprite
 
     void Shooting()
     {
+        /*Console.WriteLine("Target FPS: "+game.targetFps);
+        Console.WriteLine("Current FPS: " + game.currentFps);*/
         level = game.FindObjectOfType<Level>();
         AimTrajectory[] foundAimTraj = game.FindObjectsOfType<AimTrajectory>();
         foreach (AimTrajectory aimTrajectory in foundAimTraj)
@@ -153,6 +160,7 @@ public class Player : AnimationSprite
                 {
                     for (int j = 0; j < aimTrajectoryDist; j++)
                     {
+                        aimTrajec.useDeltaTime = false;
                         aimTrajec.Step();
                     }
                 }
