@@ -14,11 +14,11 @@ public class Level : GameObject
     private float levelWidth = 2000;
     private float levelHeight = 1000;
 
+    private List<Collectable> items = new List<Collectable>();
 
     private Player player;
     private Sprite background;
     private UI ui;
-    private Collectable item;
     private Killer killer;
     private Button button;
 
@@ -43,7 +43,8 @@ public class Level : GameObject
         }
         AddChild(new SimplePlatform(400, 850));
 
-        item = new Collectable(false, 200, 800);
+        Collectable item = new Collectable(false, 200, 800);
+        items.Add(item);
 
         killer = new Killer(1000, 800);
         AddChild(killer);
@@ -78,13 +79,16 @@ public class Level : GameObject
 
     void checkPuzzles()
     {
-        if(item.spawned == false)
+        foreach(Collectable item in items)
         {
-            int index = Constants.buttons.FindIndex(a => a == item.linkedButton);
-            if (Constants.buttonStates[index] == true)
+            if (item.spawned == false)
             {
-                AddChild(item);
-                item.spawned = true;
+                int index = Constants.buttons.FindIndex(a => a == item.linkedButton);
+                if (Constants.buttonStates[index] == true)
+                {
+                    AddChild(item);
+                    item.spawned = true;
+                }
             }
         }
     }
