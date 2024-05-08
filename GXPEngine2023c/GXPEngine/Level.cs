@@ -20,6 +20,7 @@ public class Level : GameObject
     private UI ui;
     private Collectable item;
     private Killer killer;
+    private Button button;
 
 
 
@@ -42,11 +43,16 @@ public class Level : GameObject
         }
         AddChild(new SimplePlatform(400, 850));
 
-        item = new Collectable(200, 800);
-        AddChild(item);
+        item = new Collectable(false, 200, 800);
 
-        killer = new Killer(800, 800);
+        killer = new Killer(1000, 800);
         AddChild(killer);
+
+        button = new Button(700, 800);
+        button.addToConstants();
+        AddChild(button);
+
+        item.linkedButton = button;
 
         ui = new UI();
         AddChild(ui);
@@ -70,11 +76,32 @@ public class Level : GameObject
 
     }
 
+    void checkPuzzles()
+    {
+        if(item.spawned == false)
+        {
+            int index = Constants.buttons.FindIndex(a => a == item.linkedButton);
+            if (Constants.buttonStates[index] == true)
+            {
+                AddChild(item);
+                item.spawned = true;
+            }
+        }
+    }
+
     void Update()
     {
-
+        
         HandleScroll();
+        checkPuzzles();
         ui.updateHUD();
+        foreach(Button button in Constants.buttons)
+        {
+            if(!button.triggered)
+            {
+                button.checkToggle();
+            }
+        }
 
     }
 }

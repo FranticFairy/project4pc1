@@ -13,6 +13,9 @@ namespace GXPEngine
         public static int goo;
 
         public static bool dead;
+
+        public static List<Button> buttons = new List<Button>();
+        public static List<bool> buttonStates = new List<bool>();
     }
 
 }
