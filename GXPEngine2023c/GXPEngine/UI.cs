@@ -20,6 +20,9 @@ namespace GXPEngine
 
         public void updateHUD()
         {
+            Console.WriteLine("---");
+            Console.WriteLine(goo);
+            Console.WriteLine(Constants.goo);
             if(goo != Constants.goo)
             {
                 Console.WriteLine("Update");

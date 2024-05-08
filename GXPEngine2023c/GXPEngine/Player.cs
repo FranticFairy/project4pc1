@@ -187,7 +187,6 @@ public class Player : AnimationSprite
 
         if (!Input.GetKey(Key.O) || counter >= 60) {
 
-            Constants.goo = goo;
             MovePlayer();
             Shooting();
             counter = 0;
@@ -201,11 +200,7 @@ public class Player : AnimationSprite
         GameObject[] collisions = GetCollisions();
         for (int i = 0; i < collisions.Length; i++)
         {
-            if (collisions[i].GetType() == typeof(Collectable))
-            {
-                goo++;
-                collisions[i].LateDestroy();
-            }
+
             if (collisions[i].GetType() == typeof(Killer))
             {
                 Constants.dead = true;

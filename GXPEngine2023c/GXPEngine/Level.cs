@@ -43,7 +43,7 @@ public class Level : GameObject
         }
         AddChild(new SimplePlatform(400, 850));
 
-        Collectable item = new Collectable(false, 200, 800);
+        Collectable item = new Collectable(5, false, 200, 800);
         items.Add(item);
 
         killer = new Killer(1000, 800);
@@ -56,6 +56,7 @@ public class Level : GameObject
         item.linkedButton = button;
 
         ui = new UI();
+        Constants.ui = ui;
         AddChild(ui);
     }
 
@@ -104,6 +105,13 @@ public class Level : GameObject
             if(!button.triggered)
             {
                 button.checkToggle();
+            }
+        }
+        foreach(Collectable item in items)
+        {
+            if(item.spawned)
+            {
+                item.checkCollision();
             }
         }
 

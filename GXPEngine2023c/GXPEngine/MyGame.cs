@@ -17,6 +17,7 @@ public class MyGame : Game {
 			foreach(var child in GetChildren())
 			{
 				child.Destroy();
+                Constants.goo = 0;
             }
             Level level = new Level();
             AddChild(level);
