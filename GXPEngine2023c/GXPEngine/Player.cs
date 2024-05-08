@@ -11,8 +11,7 @@ using TiledMapParser;
 public class Player : AnimationSprite
 {
     private Vec2 velocity = new Vec2(0,0);
-    private float acceleration = .5f;
-    private float deceleration = .1f;
+
 
     private float xMaxSpeed = 5f;
 
@@ -47,8 +46,10 @@ public class Player : AnimationSprite
 
         SetOrigin(width / 2, height / 2);
         position = pos;
+        scale = 2f;
 
         level = game.FindObjectOfType<Level>();
+        collider.isTrigger = true;
 
     }
 
@@ -65,27 +66,29 @@ public class Player : AnimationSprite
 
         if (Input.GetKey(Key.A))
         {
-            velocity.x -= acceleration*deltaTimeFun;
+            velocity.x -= Constants.acceleration*deltaTimeFun;
             Mirror(true, false);
         }
         else if (Input.GetKey(Key.D))
         {
-            velocity.x += acceleration*deltaTimeFun;
+            velocity.x += Constants.acceleration*deltaTimeFun;
             Mirror(false, false);
         }
 
 
 
-        if (velocity.x > -deceleration * deltaTimeFun && 
-            velocity.x <  deceleration * deltaTimeFun) velocity.x = 0;
-        if (velocity.x > 0) velocity.x -= deceleration * deltaTimeFun;
-        if (velocity.x < 0) velocity.x += deceleration * deltaTimeFun;
+        if (velocity.x > -Constants.deceleration * deltaTimeFun && 
+            velocity.x <  Constants.deceleration * deltaTimeFun) velocity.x = 0;
+        if (velocity.x > 0) velocity.x -= Constants.deceleration * deltaTimeFun;
+        if (velocity.x < 0) velocity.x += Constants.deceleration * deltaTimeFun;
 
         velocity.x = Mathf.Clamp(velocity.x, -xMaxSpeed, xMaxSpeed);
 
 
         velocity.y += gravity*deltaTimeFun;
         isGrounded = false;
+
+        //Collision collision = MoveUntilCollision(vx, 0);    
         if (MoveUntilCollision(0, velocity.y*deltaTimeFun) != null)
         {
             velocity.y = 0;
@@ -152,7 +155,8 @@ public class Player : AnimationSprite
             aimTrajectory.LateDestroy();
         }
 
-        if (Input.GetMouseButton(0))
+        // I AM REPEATING MYSELF HERE. I REPEAT, I AM REPEATING MYSELF HERE
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
         {
             for (int i = 0; i < aimTrajectoryAmount; i++)
             {
@@ -167,11 +171,14 @@ public class Player : AnimationSprite
                     }
                 }
             }
-
         }
         else if (Input.GetMouseButtonUp(0))
         {
             level.AddChild(new Projectile(getProjVec(level), position));
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            level.AddChild(new BouncyProjectile(getProjVec(level), position));
         }
 
     }

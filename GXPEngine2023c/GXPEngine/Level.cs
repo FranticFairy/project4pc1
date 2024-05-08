@@ -12,7 +12,7 @@ public class Level : GameObject
     private int yBoundarySize = 200;    // same but y
 
     private float levelWidth = 2000;
-    private float levelHeight = 1000;
+    private float levelHeight = 2000;
 
     private List<Collectable> items = new List<Collectable>();
 
@@ -23,6 +23,21 @@ public class Level : GameObject
     private Button button;
 
 
+    List<SimplePlatform> _platforms;
+
+    public int GetNumberOfLines()
+    {
+        return _platforms.Count;
+    }
+
+    public SimplePlatform GetLine(int index)
+    {
+        if (index >= 0 && index < _platforms.Count)
+        {
+            return _platforms[index];
+        }
+        return null;
+    }
 
     public Level()
     {
@@ -30,18 +45,23 @@ public class Level : GameObject
         background.scaleX = 15f;
         background.scaleY = 15f;
         AddChild(background);
+        
 
         player = new Player(new Vec2(400, 400));
         AddChild(player);
 
+
+        _platforms = new List<SimplePlatform>();
         for (int i = 0; i < 20; i++)
         {
             SimplePlatform simplePlatform = new SimplePlatform(0, 0);
             simplePlatform.x = i * simplePlatform.width;
             simplePlatform.y = 900;
             AddChild(simplePlatform);
+            AddPlatform(i, 900, true);
         }
-        AddChild(new SimplePlatform(400, 850));
+        //AddChild(new SimplePlatform(400, 850));
+        AddPlatform(400, 850);
 
         Collectable item = new Collectable(false, 200, 800);
         items.Add(item);
@@ -57,6 +77,14 @@ public class Level : GameObject
 
         ui = new UI();
         AddChild(ui);
+    }
+
+    void AddPlatform(float xPosPlatform, float yPosPlatform, bool useWidth = false)
+    {
+        SimplePlatform simplePlatform = new SimplePlatform(xPosPlatform, yPosPlatform);
+        if (useWidth) simplePlatform.x *= simplePlatform.width;
+        AddChild(simplePlatform);
+        _platforms.Add(simplePlatform);
     }
 
     public void HandleScroll()
