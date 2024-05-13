@@ -16,6 +16,9 @@ namespace GXPEngine
 
         public static List<Button> buttons = new List<Button>();
         public static List<bool> buttonStates = new List<bool>();
+
+        public static float acceleration = .5f;
+        public static float deceleration = .1f;
     }
 
 }

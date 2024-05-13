@@ -3,14 +3,19 @@ using GXPEngine;                                // GXPEngine contains the engine
 using System.Drawing;                           // System.Drawing contains drawing tools such as Color definitions
 
 public class MyGame : Game {
+
+	Level level;
 	public MyGame() : base(1920, 1080, false/*, true, 1920, 1080, true*/)     
 	{
-		Level level = new Level();
+		level = new Level();
 		AddChild(level);
 	}
 
-
-	void Update() 
+    public Level GetLevel()
+    {
+        return level;
+    }
+    void Update() 
 	{
         if (Constants.dead)
         {
