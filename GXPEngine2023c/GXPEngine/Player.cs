@@ -10,30 +10,32 @@ using TiledMapParser;
 
 public class Player : AnimationSprite
 {
-    private Vec2 velocity = new Vec2(0,0);
 
-
+    // Movement
     private float xMaxSpeed = 5f;
+    private float jumpSpeed = 7f;           // the force propelling you upwards
+    private float gravity = .2f;            // the force pulling you down again
+    private float grappleSpeed = 10f;
 
-
+    // Shooting
     private float minShootForce = 4f;       // min force applied to proj
     private float maxShootForce = 9f;       // max force applied to proj
+    private float minShootForceGrapple = 6f;    // min force applied to grapple hook
+    private float maxShootForceGrapple = 13f;   // max force applied to grapple hook
     private float minShootMouseDist = 70f;  // moving mouse closer than this value in pixels to player doesn't decrease power anymore
     private float maxShootMouseDist = 300f; // same but the other side
 
     private int aimTrajectoryAmount = 5;    // amount of white circles for aim trajectory
     private int aimTrajectoryDist = 5;      // amount of frames between the circles
 
+    private bool grappleActive = false;
 
-    private float jumpSpeed = 7f;           // the force propelling you upwards
-    private float gravity = .2f;            // the force pulling you down again
-
-    private Level level;
 
     public Vec2 position;
 
+    private Level level;
+    private Vec2 velocity = new Vec2(0,0);
     private bool isGrounded;
-    public bool isSprinting;
 
     private int coyoteTime;
     private int coyoteTimeMax = 10;         // number of frames usable for coyote time
@@ -54,6 +56,15 @@ public class Player : AnimationSprite
     }
 
     //int timeTracker;
+
+    public void GrappleHit(Vec2 vec)
+    {
+        grappleActive = true;
+        velocity = vec.Normalized() * grappleSpeed;
+        Console.WriteLine(velocity);
+    }
+
+
     private void MovePlayer()
     {
 
@@ -63,63 +74,79 @@ public class Player : AnimationSprite
 
         SetCycle(0, 7);
 
-
-        if (Input.GetKey(Key.A))
+        if (!grappleActive)
         {
-            velocity.x -= Constants.acceleration*deltaTimeFun;
-            Mirror(true, false);
+
+
+            if (Input.GetKey(Key.A))
+            {
+                velocity.x -= Constants.acceleration*deltaTimeFun;
+                Mirror(true, false);
+            }
+            else if (Input.GetKey(Key.D))
+            {
+                velocity.x += Constants.acceleration*deltaTimeFun;
+                Mirror(false, false);
+            }
+
+
+
+            if (velocity.x > -Constants.deceleration * deltaTimeFun && 
+                velocity.x <  Constants.deceleration * deltaTimeFun) velocity.x = 0;
+            if (velocity.x > 0) velocity.x -= Constants.deceleration * deltaTimeFun;
+            if (velocity.x < 0) velocity.x += Constants.deceleration * deltaTimeFun;
+
+            velocity.x = Mathf.Clamp(velocity.x, -xMaxSpeed, xMaxSpeed);
+
+
+            velocity.y += gravity*deltaTimeFun;
+            isGrounded = false;
+
+            //Collision collision = MoveUntilCollision(vx, 0);    
+            if (MoveUntilCollision(0, velocity.y*deltaTimeFun) != null)
+            {
+                velocity.y = 0;
+                isGrounded = true;
+                coyoteTime = coyoteTimeMax;
+                //if (timeTracker > 0) Console.WriteLine("timeTracker: "+timeTracker);
+                //timeTracker = 0;
+            }
+            //else timeTracker += Time.deltaTime;
+
+            if (!isGrounded && coyoteTime > 0) coyoteTime--;
+
+            if (Input.GetKeyDown(Key.W) && coyoteTime > 0)
+            {
+                velocity.y = -jumpSpeed;
+                coyoteTime = 0;
+
+            }
+
+            position += velocity*deltaTimeFun;
+            x = position.x; 
+            y = position.y;
         }
-        else if (Input.GetKey(Key.D))
+        else
         {
-            velocity.x += Constants.acceleration*deltaTimeFun;
-            Mirror(false, false);
+            Collision col = MoveUntilCollision(velocity.x*deltaTimeFun, velocity.y*deltaTimeFun);
+            position.x = x;
+            position.y = y;
+            Console.WriteLine("col = "+col);
+            if (col != null || Input.GetKeyDown(Key.SPACE))
+            {
+                GrappleHook grappleHook = game.FindObjectOfType<GrappleHook>();
+                if (grappleHook != null) grappleHook.Destroy();
+                grappleActive = false;
+            }
         }
 
-
-
-        if (velocity.x > -Constants.deceleration * deltaTimeFun && 
-            velocity.x <  Constants.deceleration * deltaTimeFun) velocity.x = 0;
-        if (velocity.x > 0) velocity.x -= Constants.deceleration * deltaTimeFun;
-        if (velocity.x < 0) velocity.x += Constants.deceleration * deltaTimeFun;
-
-        velocity.x = Mathf.Clamp(velocity.x, -xMaxSpeed, xMaxSpeed);
-
-
-        velocity.y += gravity*deltaTimeFun;
-        isGrounded = false;
-
-        //Collision collision = MoveUntilCollision(vx, 0);    
-        if (MoveUntilCollision(0, velocity.y*deltaTimeFun) != null)
-        {
-            velocity.y = 0;
-            isGrounded = true;
-            coyoteTime = coyoteTimeMax;
-            //if (timeTracker > 0) Console.WriteLine("timeTracker: "+timeTracker);
-            //timeTracker = 0;
-        }
-        //else timeTracker += Time.deltaTime;
-
-        if (!isGrounded && coyoteTime > 0) coyoteTime--;
-
-        if (Input.GetKeyDown(Key.W) && coyoteTime > 0)
-        {
-            velocity.y = -jumpSpeed;
-            coyoteTime = 0;
-
-        }
-
-        position += velocity*deltaTimeFun;
-
-
-        x = position.x; 
-        y = position.y;
 
         //Console.WriteLine("Player coordinates: " + position);
 
         Animate(.1f);
     }
 
-    private Vec2 getProjVec(Level l)
+    private Vec2 getProjVec(Level l, string projType)
     {
         Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
         Vec2 levelPos = new Vec2(l.x, l.y);
@@ -127,40 +154,38 @@ public class Player : AnimationSprite
 
         float shootPower = Mathf.Clamp(deltaPos.Length(), minShootMouseDist, maxShootMouseDist);
         shootPower -= minShootMouseDist;
-        shootPower *= (maxShootForce - minShootForce) / maxShootMouseDist;
-        shootPower += minShootForce;
-
-        /*Console.WriteLine("deltaPos: "+deltaPos);
-        /*Console.WriteLine("shoot");
-        Console.WriteLine(" ");
-        Console.WriteLine("mousePos = "+mousePos);
-        Console.WriteLine("position = "+position);
-        Console.WriteLine("deltaPos = "+deltaPos);
-        Console.WriteLine("level pos = "+level.x+" "+level.y);
-        Console.WriteLine("shootPower = "+shootPower);
-        Console.WriteLine("projVec = "+projVec);
-        Console.WriteLine(" ");*/
+        if (projType == "bounce")
+        {
+            shootPower *= (maxShootForce - minShootForce) / maxShootMouseDist;
+            shootPower += minShootForce;
+        }
+        else if (projType == "grapple")
+        {
+            shootPower *= (maxShootForceGrapple - minShootForceGrapple) / maxShootMouseDist;
+            shootPower += minShootForceGrapple;
+        }
+        else return new Vec2(0, 0);
 
         return deltaPos.Normalized() * shootPower;
     }
 
     void Shooting()
     {
-        /*Console.WriteLine("Target FPS: "+game.targetFps);
-        Console.WriteLine("Current FPS: " + game.currentFps);*/
         level = game.FindObjectOfType<Level>();
+
         AimTrajectory[] foundAimTraj = game.FindObjectsOfType<AimTrajectory>();
         foreach (AimTrajectory aimTrajectory in foundAimTraj)
         {
             aimTrajectory.LateDestroy();
         }
 
-        // I AM REPEATING MYSELF HERE. I REPEAT, I AM REPEATING MYSELF HERE
+        // The input part
         if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
         {
+            string projType = Input.GetMouseButton(0) ? "bounce" : "grapple";
             for (int i = 0; i < aimTrajectoryAmount; i++)
             {
-                level.AddChild(new AimTrajectory(getProjVec(level), position));
+                level.AddChild(new AimTrajectory(getProjVec(level, projType), position));
                 AimTrajectory[] foundAimTrajec = game.FindObjectsOfType<AimTrajectory>();
                 foreach (AimTrajectory aimTrajec in foundAimTrajec)
                 {
@@ -174,11 +199,11 @@ public class Player : AnimationSprite
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            level.AddChild(new BouncyProjectile(getProjVec(level), position));
+            level.AddChild(new BouncyProjectile(getProjVec(level, "bounce"), position));
         }
         else if (Input.GetMouseButtonUp(1))
         {
-            level.AddChild(new Projectile(getProjVec(level), position));
+            level.AddChild(new GrappleHook(getProjVec(level, "grapple"), position));
         }
 
     }

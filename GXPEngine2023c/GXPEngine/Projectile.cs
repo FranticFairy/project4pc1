@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class Projectile : Sprite
+public class Projectile : AnimationSprite
 {
     public int bounceNumber = 0;        // number of bounces until it stops
     private float gravity = .1f;
@@ -16,10 +16,11 @@ public class Projectile : Sprite
     private Vec2 position;
     private Vec2 oldPosition;
     public bool useDeltaTime = true;    // true = use deltaTime, false = base on frames only
+    public bool hitSomething;
     private int bounceCount = 0;
     private bool stopMoving = false;
 
-    public Projectile(Vec2 vel, Vec2 pos, string fileName = "circle.png") : base(fileName)
+    public Projectile(Vec2 vel, Vec2 pos, string fileName = "circle.png") : base(fileName, 1, 1)
     {
         SetOrigin(width/2, height/2);
         collider.isTrigger = true;
@@ -142,7 +143,7 @@ public class Projectile : Sprite
     {
         if (!stopMoving)
         {
-            
+            hitSomething = false;
             oldPosition = position;
 
             float deltaTimeClamped = useDeltaTime ? Mathf.Min(Time.deltaTime, 40) : 1000 / 120;
@@ -168,7 +169,7 @@ public class Projectile : Sprite
                 {
                     stopMoving = true;
                 }
-
+                hitSomething = true;
 
             }
 

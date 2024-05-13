@@ -62,6 +62,7 @@ public class Level : GameObject
         }
         //AddChild(new SimplePlatform(400, 850));
         AddPlatform(400, 850);
+        AddPlatform(700, 400);
 
         Collectable item = new Collectable(false, 200, 800);
         items.Add(item);
