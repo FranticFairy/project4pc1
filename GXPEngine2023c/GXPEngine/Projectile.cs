@@ -49,7 +49,7 @@ public class Projectile : AnimationSprite
         EasyDraw BaseShape = new EasyDraw(64, 64, false);
         BaseShape.SetXY(-32, -32);
         BaseShape.Clear(ColorTranslator.FromHtml("#55ff0000"));
-        //BaseShape.ClearTransparent();
+        BaseShape.ClearTransparent();
         AddChild(BaseShape);
 
         return new BoxCollider(BaseShape);
@@ -238,7 +238,12 @@ public class Projectile : AnimationSprite
 
         //Console.WriteLine("Projectile coordinates: "+x+" "+y);
 
-        if (sprite != null) sprite.rotation = velocity.GetAngleDegrees();
+        if (sprite != null)
+        {
+            sprite.rotation = velocity.GetAngleDegrees();
+            sprite.SetCycle(0, 6);
+            sprite.Animate(.1f);
+        }
 
         if (x < 0 || x > 5000 || y < 0 || y > 5000)
         {

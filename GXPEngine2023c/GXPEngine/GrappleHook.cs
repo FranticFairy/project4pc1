@@ -21,7 +21,7 @@ public class GrappleHook : Projectile
         
         collider.isTrigger = true;
         player = Constants.player;
-        grappleRope = new AnimationSprite("grappling-slime-animation-spritesheet-2.png", 4, 3, 10);  // GRAPPLE ROPE ANIMATION THING
+        grappleRope = new AnimationSprite("grappling-slime-animation-spritesheet-3.png", 4, 3, 10);  // GRAPPLE ROPE ANIMATION THING
         grappleRope.SetOrigin(width, height / 2);
         grappleRope.collider.isTrigger = true;
         AddChild(grappleRope);
