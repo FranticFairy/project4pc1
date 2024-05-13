@@ -95,10 +95,13 @@ public class Player : AnimationSprite
                 isGrounded = true;
                 grappleAirborne = false;
                 coyoteTime = coyoteTimeMax;
-                //if (timeTracker > 0) Console.WriteLine("timeTracker: "+timeTracker);
-                //timeTracker = 0;
+
             }
-            //else timeTracker += Time.deltaTime;
+            if (MoveUntilCollision(velocity.x*deltaTimeFun, 0) != null)
+            {
+                velocity.x = 0;
+            }
+
 
             if (!isGrounded && coyoteTime > 0) coyoteTime--;
 
