@@ -19,10 +19,10 @@ namespace GXPEngine
         public float yPos;
         public bool triggered = false;
 
-        public Button(float xPos, float yPos, string fileName = "button.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
+        public Button(string fileName = "button.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
         {
             SetOrigin(width / 2, height / 2);
-            SetXY(xPos, yPos);
+            //SetXY(xPos, yPos);
             collider.isTrigger = true;
 
         }

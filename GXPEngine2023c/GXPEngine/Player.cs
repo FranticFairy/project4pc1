@@ -42,11 +42,11 @@ public class Player : AnimationSprite
     private int goo;
 
 
-    public Player(Vec2 pos, string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
+    public Player(string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
 
         SetOrigin(width / 2, height / 2);
-        position = pos;
+        //position = pos;
 
         level = game.FindObjectOfType<Level>();
 

@@ -31,7 +31,7 @@ public class Level : GameObject
         background.scaleY = 15f;
         AddChild(background);
 
-        player = new Player(new Vec2(400, 400));
+        player = new Player();
         AddChild(player);
 
         for (int i = 0; i < 20; i++)
@@ -49,7 +49,7 @@ public class Level : GameObject
         killer = new Killer(1000, 800);
         AddChild(killer);
 
-        button = new Button(700, 800);
+        button = new Button();
         button.addToConstants();
         AddChild(button);
 
