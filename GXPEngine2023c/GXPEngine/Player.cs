@@ -24,6 +24,17 @@ public class Player : AnimationSprite
 
     private int goo;
 
+    // ANIMATIONS
+    private bool animShooting;
+    private bool animInAir;
+    private bool animWalking;
+
+    private AnimationSprite animLegs;
+    private AnimationSprite animGoo;
+    private AnimationSprite animBody;
+
+    private string lastAnim;
+    private string lastInput;
 
     public Player(Vec2 pos, string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
@@ -34,6 +45,22 @@ public class Player : AnimationSprite
 
         level = Constants.level;
         collider.isTrigger = true;
+
+        animLegs = new AnimationSprite("circle.png", 1, 1);
+        animGoo = new AnimationSprite("circle.png", 1, 1);
+        animBody = new AnimationSprite("circle.png", 1, 1);
+
+        animLegs.collider.isTrigger = true;
+        animGoo.collider.isTrigger= true;
+        animBody.collider.isTrigger = true;
+
+        animLegs.SetOrigin(animLegs.width / 2, animLegs.height / 2);
+        animGoo.SetOrigin(animGoo.width / 2, animGoo.height / 2);
+        animBody.SetOrigin(animBody.width / 2, animBody.height / 2);
+
+        AddChild(animLegs);
+        AddChild(animGoo);
+        AddChild(animBody);
 
     }
 
@@ -64,7 +91,7 @@ public class Player : AnimationSprite
         float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
         //deltaTimeFun = 1f;
 
-        SetCycle(0, 7);
+        //SetCycle(0, 7);
 
         if (!grappleActive)
         {
@@ -74,11 +101,15 @@ public class Player : AnimationSprite
             {
                 velocity.x -= Constants.acceleration*deltaTimeFun;
                 Mirror(true, false);
+                animWalking = true; // ANIMATION WALKING
+                lastInput = "left";
             }
             else if (Input.GetKey(Key.D))
             {
                 velocity.x += Constants.acceleration*deltaTimeFun;
-                Mirror(false, false);
+                Mirror(false, false);               
+                animWalking = true; // ANIMATION WALKING
+                lastInput = "right";
             }
 
 
@@ -96,16 +127,16 @@ public class Player : AnimationSprite
 
             velocity.y += Constants.gravityPlayer *deltaTimeFun;
             isGrounded = false;
-
-            //Collision collision = MoveUntilCollision(vx, 0);    
-            if (MoveUntilCollision(0, velocity.y*deltaTimeFun) != null)
+ 
+            if (MoveUntilCollision(0, velocity.y * deltaTimeFun) != null)
             {
+                Console.WriteLine(velocity);
                 velocity.y = 0;
                 isGrounded = true;
                 grappleAirborne = false;
                 coyoteTime = coyoteTimeMax;
-
             }
+            else animInAir = true;  // ANIMATION IN AIR
             if (MoveUntilCollision(velocity.x*deltaTimeFun, 0) != null)
             {
                 velocity.x = 0;
@@ -118,12 +149,12 @@ public class Player : AnimationSprite
             {
                 velocity.y = -Constants.jumpSpeedPlayer;
                 coyoteTime = 0;
-
+                animInAir = true; // ANIMATION IN AIR
             }
 
             Constants.positionPlayer += velocity*deltaTimeFun;
             x = Constants.positionPlayer.x; 
-            y = Constants.positionPlayer.y;
+            if (!isGrounded) y = Constants.positionPlayer.y;
         }
         else
         {
@@ -138,6 +169,7 @@ public class Player : AnimationSprite
                 grappleActive = false;
                 grappleIsShot = false;
             }
+            animInAir = true;
         }
 
 
@@ -184,6 +216,7 @@ public class Player : AnimationSprite
         {
             if ((Input.GetMouseButton(0) || Input.GetMouseButton(1)))
             {
+                animShooting = true;    // ANIMATION SHOOTING
                 string projType = Input.GetMouseButton(0) ? "bounce" : "grapple";
                 for (int i = 0; i < Constants.aimTrajectoryAmount; i++)
                 {
@@ -212,7 +245,167 @@ public class Player : AnimationSprite
 
     }
 
+    void Animation()
+    {
 
+        if (animShooting)
+        {
+            if (lastAnim != "shooting")
+            {
+                animLegs.Destroy();
+                animGoo.Destroy();
+                animBody.Destroy();
+                
+                animLegs = new AnimationSprite("character-shooting-leg-animation-spritesheet.png", 4, 3, 11, true);
+                animGoo = new AnimationSprite("character-idle-slime-animation-spritesheet.png", 4, 4, 16, true);
+                animBody = new AnimationSprite("character-shooting-animation-spritesheet.png", 4, 3, 11, true);
+
+                animLegs.collider.isTrigger = true;
+                animGoo.collider.isTrigger = true;
+                animBody.collider.isTrigger = true;
+
+                animLegs.SetOrigin(animLegs.width / 2, animLegs.height / 2);
+                animGoo.SetOrigin(animGoo.width / 2, animGoo.height / 2);
+                animBody.SetOrigin(animBody.width / 2, animBody.height / 2);
+
+                AddChild(animLegs);
+                AddChild(animGoo);
+                AddChild(animBody);
+            }
+            animLegs.SetCycle(0, 11);
+            animGoo.SetCycle(0, 16);
+            animBody.SetCycle(0, 11);
+
+            if (animLegs.currentFrame != animLegs.frameCount-1) animLegs.Animate(.5f);
+            animGoo.Animate(.5f);
+            if (animBody.currentFrame != animBody.frameCount-1) animBody.Animate(.5f);
+            lastAnim = "shooting";
+        }
+        else if (animInAir)
+        {
+            if (lastAnim != "inair")
+            {
+                animLegs.Destroy();
+                animGoo.Destroy();
+                animBody.Destroy();
+
+                animLegs = new AnimationSprite("character-shooting-leg-animation-spritesheet.png", 4, 3, 12, true);
+                animGoo = new AnimationSprite("character-idle-slime-animation-spritesheet.png", 4, 4, 16, true);
+                animBody = new AnimationSprite("character-in-air-animation-spritesheet.png", 2, 2, 4, true);
+
+                animLegs.collider.isTrigger = true;
+                animGoo.collider.isTrigger = true;
+                animBody.collider.isTrigger = true;
+
+                animLegs.SetOrigin(animLegs.width / 2, animLegs.height / 2);
+                animGoo.SetOrigin(animGoo.width / 2, animGoo.height / 2);
+                animBody.SetOrigin(animBody.width / 2, animBody.height / 2);
+
+                AddChild(animLegs);
+                AddChild(animGoo);
+                AddChild(animBody);
+
+
+            }
+            //animLegs.SetCycle(0, 11);
+            animGoo.SetCycle(0, 16);
+            animBody.SetCycle(0, 4);
+
+            animLegs.currentFrame = 11; //animLegs.Animate(.5f);
+            animGoo.Animate(.1f);
+            animBody.Animate(.1f);
+
+            lastAnim = "inair";
+        }
+        else if (animWalking)
+        {
+            if (lastAnim != "walking")
+            {
+                animLegs.Destroy();
+                animGoo.Destroy();
+                animBody.Destroy();
+
+                animLegs = new AnimationSprite("character-walking-leg-animation-spritesheet.png", 5, 4, 17, true);
+                animGoo = new AnimationSprite("character-walking-slime-animation-spritesheet.png", 5, 4, 17, true);
+                animBody = new AnimationSprite("character-walking-animation-spritesheet.png", 5, 4, 17, true);
+
+                animLegs.collider.isTrigger = true;
+                animGoo.collider.isTrigger = true;
+                animBody.collider.isTrigger = true;
+
+                animLegs.SetOrigin(animLegs.width / 2, animLegs.height / 2);
+                animGoo.SetOrigin(animGoo.width / 2, animGoo.height / 2);
+                animBody.SetOrigin(animBody.width / 2, animBody.height / 2);
+
+                AddChild(animLegs);
+                AddChild(animGoo);
+                AddChild(animBody);
+
+
+            }
+            animLegs.SetCycle(0, 17);
+            animGoo.SetCycle(0, 17);
+            animBody.SetCycle(0, 17);
+
+            animLegs.Animate(.1f);
+            animGoo.Animate(.1f);
+            animBody.Animate(.1f);
+            lastAnim = "walking";
+        }
+        else
+        {
+            if (lastAnim != "idle")
+            {
+                animLegs.Destroy();
+                animGoo.Destroy();
+                animBody.Destroy();
+
+                animLegs = new AnimationSprite("character-idle-leg-animation-spritesheet.png", 4, 4, 16, true);
+                animGoo = new AnimationSprite("character-idle-slime-animation-spritesheet.png", 4, 4, 16, true);
+                animBody = new AnimationSprite("character-idle-animation-spritesheet.png", 4, 4, 16, true);
+
+                animLegs.collider.isTrigger = true;
+                animGoo.collider.isTrigger = true;
+                animBody.collider.isTrigger = true;
+
+                animLegs.SetOrigin(animLegs.width / 2, animLegs.height / 2);
+                animGoo.SetOrigin(animGoo.width / 2, animGoo.height / 2);
+                animBody.SetOrigin(animBody.width / 2, animBody.height / 2);
+
+                AddChild(animLegs);
+                AddChild(animGoo);
+                AddChild(animBody);
+
+
+            }
+            animLegs.SetCycle(0, 16);
+            animGoo.SetCycle(0, 16);
+            animBody.SetCycle(0, 16);
+
+            animLegs.Animate(.1f);
+            animGoo.Animate(.1f);
+            animBody.Animate(.1f);
+            lastAnim = "idle";
+        }
+
+
+        if (lastInput == "left")
+        {
+            animLegs.Mirror(true, false);
+            animGoo.Mirror(true, false);
+            animBody.Mirror(true, false);
+        }
+        else if (lastInput == "right")
+        {
+            animLegs.Mirror(false, false);
+            animGoo.Mirror(false, false);
+            animBody.Mirror(false, false);
+        }
+
+        animShooting = false;
+        animInAir = false;
+        animWalking = false;
+    }
 
     int counter;
 
@@ -228,6 +421,7 @@ public class Player : AnimationSprite
             Shooting();
             counter = 0;
             checkCollision();
+            Animation();
         }
 
     }
