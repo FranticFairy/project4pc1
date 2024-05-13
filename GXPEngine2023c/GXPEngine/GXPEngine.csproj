@@ -45,6 +45,8 @@
     <Compile Include="Button.cs" />
     <Compile Include="Collectable.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="BouncyProjectile.cs" />
+    <Compile Include="GrappleHook.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
