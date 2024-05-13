@@ -8,11 +8,7 @@ using TiledMapParser;
 
 public class Level : GameObject
 {
-    private int xBoundarySize = 200;    // player distance until scrolling
-    private int yBoundarySize = 200;    // same but y
-
-    private float levelWidth = 2000;
-    private float levelHeight = 2000;
+    
 
     private List<Collectable> items = new List<Collectable>();
 
@@ -48,6 +44,7 @@ public class Level : GameObject
         
 
         player = new Player(new Vec2(400, 400));
+        Constants.player = player;
         AddChild(player);
 
 
@@ -92,17 +89,17 @@ public class Level : GameObject
     {
         if (player == null) return;
 
-        if (player.x + x < xBoundarySize) x = xBoundarySize - player.x;
-        if (player.y + y < yBoundarySize) y = yBoundarySize - player.y;
+        if (player.x + x < Constants.xBoundarySize) x = Constants.xBoundarySize - player.x;
+        if (player.y + y < Constants.yBoundarySize) y = Constants.yBoundarySize - player.y;
 
-        if (player.x + x > game.width - xBoundarySize) x = game.width - xBoundarySize - player.x;
-        if (player.y + y > game.height - yBoundarySize) y = game.height - yBoundarySize - player.y;
+        if (player.x + x > game.width - Constants.xBoundarySize) x = game.width - Constants.xBoundarySize - player.x;
+        if (player.y + y > game.height - Constants.yBoundarySize) y = game.height - Constants.yBoundarySize - player.y;
 
         if (x > 0) x = 0;   // making sure the camera doesn't see the void on the left
         if (y > 0) y = 0;   // same but on top
 
-        if (-x > levelWidth - game.width) x = -(levelWidth - game.width);   // right
-        if (-y > levelHeight - game.height) y = -(levelHeight - game.height); // bottom
+        if (-x > Constants.levelWidth - game.width) x = -(Constants.levelWidth - game.width);   // right
+        if (-y > Constants.levelHeight - game.height) y = -(Constants.levelHeight - game.height); // bottom
 
     }
 

@@ -8,6 +8,7 @@ public class MyGame : Game {
 	public MyGame() : base(1920, 1080, false/*, true, 1920, 1080, true*/)     
 	{
 		level = new Level();
+		Constants.level = level;
 		AddChild(level);
 	}
 
@@ -23,8 +24,9 @@ public class MyGame : Game {
 			{
 				child.Destroy();
             }
-            Level level = new Level();
-            AddChild(level);
+            Level levell = new Level();
+			Constants.level = levell;
+            AddChild(levell);
             Constants.dead = false;
         }
     }

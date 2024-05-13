@@ -20,7 +20,7 @@ public class GrappleHook : Projectile
     {
         
         collider.isTrigger = true;
-        player = game.FindObjectOfType<Player>();
+        player = Constants.player;
         grappleRope = new AnimationSprite("circle.png", 1, 1);  // GRAPPLE ROPE ANIMATION THING
         grappleRope.SetOrigin(width, height / 2);
         grappleRope.collider.isTrigger = true;
@@ -32,7 +32,7 @@ public class GrappleHook : Projectile
     void Update()
     {
 
-        if (player == null) player = game.FindObjectOfType<Player>();
+        //if (player == null) player = game.FindObjectOfType<Player>();
 
         Step();
 
