@@ -58,7 +58,7 @@ public class Level : GameObject
             AddPlatform(i, 900, true);
         }
         //AddChild(new SimplePlatform(400, 850));
-        AddPlatform(400, 850);
+        //AddPlatform(400, 850);
         AddPlatform(700, 400);
 
         Collectable item = new Collectable(false, 200, 800);

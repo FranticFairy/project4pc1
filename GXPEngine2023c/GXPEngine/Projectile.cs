@@ -2,6 +2,7 @@
 using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,11 @@ public class Projectile : AnimationSprite
     private Vec2 velocity;
     private Vec2 position;
     private Vec2 oldPosition;
+
+    private AnimationSprite sprite;
     
 
-    public Projectile(Vec2 vel, Vec2 pos, string fileName = "circle.png") : base(fileName, 1, 1)
+    public Projectile(Vec2 vel, Vec2 pos, string fileName = "circle.png", int cols = 1, int rows = 1, int frames = 1) : base(fileName, cols, rows, frames)
     {
         SetOrigin(width/2, height/2);
         collider.isTrigger = true;
@@ -27,7 +30,31 @@ public class Projectile : AnimationSprite
         position = pos;
         x = pos.x;
         y = pos.y;
+
+
+        if (cols > 1)
+        {
+
+            alpha = 0;
+            sprite = new AnimationSprite(fileName, cols, rows, frames);
+            sprite.SetOrigin(width/2, height/2);
+            sprite.collider.isTrigger = true;
+            AddChild(sprite);
+        }
     }
+
+
+    protected override Collider createCollider()        // Giving the right hitbox
+    {
+        EasyDraw BaseShape = new EasyDraw(64, 64, false);
+        BaseShape.SetXY(-32, -32);
+        BaseShape.Clear(ColorTranslator.FromHtml("#55ff0000"));
+        //BaseShape.ClearTransparent();
+        AddChild(BaseShape);
+
+        return new BoxCollider(BaseShape);
+    }
+
 
     void Update()
     {
@@ -140,6 +167,7 @@ public class Projectile : AnimationSprite
 
     public void Step()
     {
+        //rotation++;
         if (!stopMoving)
         {
             hitSomething = false;
@@ -209,6 +237,8 @@ public class Projectile : AnimationSprite
         //y = position.y;
 
         //Console.WriteLine("Projectile coordinates: "+x+" "+y);
+
+        if (sprite != null) sprite.rotation = velocity.GetAngleDegrees();
 
         if (x < 0 || x > 5000 || y < 0 || y > 5000)
         {
