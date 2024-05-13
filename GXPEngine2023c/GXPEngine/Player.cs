@@ -174,11 +174,11 @@ public class Player : AnimationSprite
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            level.AddChild(new Projectile(getProjVec(level), position));
+            level.AddChild(new BouncyProjectile(getProjVec(level), position));
         }
         else if (Input.GetMouseButtonUp(1))
         {
-            level.AddChild(new BouncyProjectile(getProjVec(level), position));
+            level.AddChild(new Projectile(getProjVec(level), position));
         }
 
     }

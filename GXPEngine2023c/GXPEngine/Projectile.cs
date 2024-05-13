@@ -31,7 +31,7 @@ public class Projectile : Sprite
 
     void Update()
     {
-        if (!stopMoving) Step();
+        Step();
     }
     /*
     bool lineEdgeHit;
@@ -140,64 +140,67 @@ public class Projectile : Sprite
 
     public void Step()
     {
-        oldPosition = position;
+        if (!stopMoving)
+        {
+            
+            oldPosition = position;
 
-        float deltaTimeClamped = useDeltaTime ? Mathf.Min(Time.deltaTime, 40) : 1000 / 120;
-        float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
+            float deltaTimeClamped = useDeltaTime ? Mathf.Min(Time.deltaTime, 40) : 1000 / 120;
+            float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
 
-        velocity.y += gravity*deltaTimeFun;
-
+            velocity.y += gravity*deltaTimeFun;
 
         
-        Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
-        //position.x = x;
-        //position.y = y;
+            Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
+            //position.x = x;
+            //position.y = y;
 
-        if (col != null)
-        {
-            if (bounceCount < bounceNumber || !useDeltaTime)
+            if (col != null)
             {
-                Vec2 normal = new Vec2(col.normal.x, col.normal.y);
-                velocity.Reflect(normal, bounciness);
-                bounceCount++;
-                Console.WriteLine(col.timeOfImpact);
+                if (bounceCount < bounceNumber || !useDeltaTime)
+                {
+                    Vec2 normal = new Vec2(col.normal.x, col.normal.y);
+                    velocity.Reflect(normal, bounciness);
+                    bounceCount++;
+                    Console.WriteLine(col.timeOfImpact);
+                }
+                else
+                {
+                    stopMoving = true;
+                }
+
+
+            }
+
+        
+            //position += velocity * deltaTimeFun;
+
+            /*if (!useDeltaTime)
+            {
+                Collision collision = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
+                position.x = x;
+                position.y = y;
+
+                if (collision != null)
+                {
+                    Console.WriteLine(collision.timeOfImpact);
+
+
+                }
+
             }
             else
             {
-                stopMoving = true;
-            }
+                position += velocity * deltaTimeFun;
 
+            }*/
 
-        }
+            //x += velocity.x * deltaTimeFun;
+            //y += velocity.y * deltaTimeFun;
 
-        
-        //position += velocity * deltaTimeFun;
-
-        /*if (!useDeltaTime)
-        {
-            Collision collision = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
-            position.x = x;
-            position.y = y;
-
-            if (collision != null)
-            {
-                Console.WriteLine(collision.timeOfImpact);
-
-
-            }
+            UpdateScreenPosition();
 
         }
-        else
-        {
-            position += velocity * deltaTimeFun;
-
-        }*/
-
-        //x += velocity.x * deltaTimeFun;
-        //y += velocity.y * deltaTimeFun;
-
-        UpdateScreenPosition();
-
     }
 
 
