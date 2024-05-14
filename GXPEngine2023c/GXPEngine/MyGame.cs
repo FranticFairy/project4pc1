@@ -48,11 +48,10 @@ public class MyGame : Game
         {
 			foreach(var child in GetChildren())
 			{
-				child.Destroy();
+                DestroyAll();
                 Constants.goo = 0;
             }
-            Level level = new Level();
-            AddChild(level);
+            LoadLevel("map.tmx");
             Constants.dead = false;
         }
     }

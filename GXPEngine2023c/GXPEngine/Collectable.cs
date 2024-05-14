@@ -17,11 +17,10 @@ namespace GXPEngine
         public Button linkedButton;
         public bool spawned;
 
-        public Collectable(int value, bool spawned, float xPos, float yPos, string fileName = "goo.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
+        public Collectable(int value, bool spawned, string fileName = "goo.png", int cols = 1, int rows = 1) : base(fileName, cols, rows)
         {
 
             SetOrigin(width / 2, height / 2);
-            SetXY(xPos, yPos);
             collider.isTrigger = true;
             this.value = value;
 

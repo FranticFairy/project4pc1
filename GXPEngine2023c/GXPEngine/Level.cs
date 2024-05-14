@@ -43,10 +43,10 @@ public class Level : GameObject
         }
         AddChild(new SimplePlatform(400, 850));
 
-        Collectable item = new Collectable(5, false, 200, 800);
+        Collectable item = new Collectable(5, false);
         items.Add(item);
 
-        killer = new Killer(1000, 800);
+        killer = new Killer();
         AddChild(killer);
 
         button = new Button();
