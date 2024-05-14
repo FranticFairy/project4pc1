@@ -29,9 +29,9 @@ public class Player : AnimationSprite
     private float jumpSpeed = 7f;           // the force propelling you upwards
     private float gravity = .2f;            // the force pulling you down again
 
-    private Level level;
+    private TiledLevel level;
 
-    public Vec2 position;
+    private Vec2 position;
 
     private bool isGrounded;
     public bool isSprinting;
@@ -47,11 +47,21 @@ public class Player : AnimationSprite
 
         SetOrigin(width / 2, height / 2);
         //position = pos;
+        //x = 500;
+        //y = 500;
+        //position.x = x;
+        //position.y = y;
 
-        level = game.FindObjectOfType<Level>();
+        collider.isTrigger = true;
+        level = game.FindObjectOfType<TiledLevel>();
+        Console.WriteLine(position);
 
     }
 
+    public void setPos(float x, float y)
+    {
+        position = new Vec2(x, y);
+    }
     //int timeTracker;
     private void MovePlayer()
     {
@@ -116,7 +126,7 @@ public class Player : AnimationSprite
         Animate(.1f);
     }
 
-    private Vec2 getProjVec(Level l)
+    private Vec2 getProjVec(TiledLevel l)
     {
         Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
         Vec2 levelPos = new Vec2(l.x, l.y);
@@ -145,7 +155,7 @@ public class Player : AnimationSprite
     {
         /*Console.WriteLine("Target FPS: "+game.targetFps);
         Console.WriteLine("Current FPS: " + game.currentFps);*/
-        level = game.FindObjectOfType<Level>();
+        level = game.FindObjectOfType<TiledLevel>();
         AimTrajectory[] foundAimTraj = game.FindObjectsOfType<AimTrajectory>();
         foreach (AimTrajectory aimTrajectory in foundAimTraj)
         {

@@ -18,38 +18,47 @@ namespace GXPEngine
             TiledLoader loader = new TiledLoader(MapName);
             loader.LoadTileLayers(0);
             loader.rootObject = this;
+            loader.addColliders = false;
+            loader.LoadObjectGroups(1);
             loader.addColliders = true;
-            loader.LoadObjectGroups();
+            loader.LoadObjectGroups(0);
+            loader.autoInstance = true;
 
             Map map = MapParser.ReadMap(MapName);
-            ObjectGroup objectGroup = map.ObjectGroups[0];
+            //ObjectGroup objectGroup = map.ObjectGroups[0];
 
-            foreach(TiledObject obj in objectGroup.Objects)
-            {
-                Sprite newObj = null;
-                switch(obj.Name)
+            foreach(ObjectGroup objectGroup in map.ObjectGroups) {
+                foreach (TiledObject obj in objectGroup.Objects)
                 {
-                    case "Player":
-                        Player Player = new Player();
-                        newObj = Player;
-                        break;
-                    case "Killer":
-                        newObj = new Killer();
-                        break;
-                    case "Button":
-                        newObj = new Button();
-                        break;
-                    case "Collectable":
-                        newObj = new Collectable(5, false);
-                        break;
-                }
-                if(newObj != null)
-                {
-                    newObj.x = obj.X + newObj.width / 2;
-                    newObj.y = obj.Y - newObj.height / 2;
-                    AddChild(newObj);
+                    Sprite newObj = null;
+                    switch (obj.Name)
+                    {
+                        case "Player":
+                            Player player = new Player();
+                            newObj = player;
+                            player.setPos(obj.X + newObj.width / 2, obj.Y - newObj.height / 2);
+                            break;
+                        case "Killer":
+                            newObj = new Killer();
+                            break;
+                        case "Button":
+                            newObj = new Button();
+                            break;
+                        case "Collectable":
+                            newObj = new Collectable(5, false);
+                            break;
+                    }
+                    if (newObj != null)
+                    {
+                        newObj.x = obj.X + newObj.width / 2;
+                        newObj.y = obj.Y - newObj.height / 2;
+                        AddChild(newObj);
+                        Console.WriteLine(obj.Name);
+                    }
                 }
             }
+
+
             /*
             Killer = FindObjectOfType<Killer>();
             Player = FindObjectOfType<Player>();

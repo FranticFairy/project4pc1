@@ -31,8 +31,8 @@ public class Level : GameObject
         background.scaleY = 15f;
         AddChild(background);
 
-        player = new Player();
-        AddChild(player);
+        //player = new Player();
+        //AddChild(player);
 
         for (int i = 0; i < 20; i++)
         {
