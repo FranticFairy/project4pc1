@@ -48,6 +48,9 @@ namespace GXPEngine
                         case "Collectable":
                             newObj = new Collectable(5, false);
                             break;
+                        case "Movable":
+                            newObj = new Movable("circle.png", 1, 1);
+                            break;
                     }
                     if (newObj != null)
                     {

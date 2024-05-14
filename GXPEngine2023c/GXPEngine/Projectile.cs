@@ -20,6 +20,7 @@ public class Projectile : AnimationSprite
     private Vec2 oldPosition;
 
     private AnimationSprite sprite;
+    public Collision collision;
     
 
     public Projectile(Vec2 vel, Vec2 pos, string fileName = "circle.png", int cols = 1, int rows = 1, int frames = 1) : base(fileName, cols, rows, frames)
@@ -198,6 +199,8 @@ public class Projectile : AnimationSprite
                     x -= col.normal.x*16;
                     y -= col.normal.y*16;
                     Constants.level.SetChildIndex(this, 1);
+                    //Console.WriteLine(col.other.GetType());
+                    if (col.other.GetType() == typeof(Movable)) collision = col;
                 }
                 hitSomething = true;
 

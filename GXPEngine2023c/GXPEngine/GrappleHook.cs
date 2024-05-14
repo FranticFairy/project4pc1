@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 public class GrappleHook : Projectile
 {
     private bool hasTriggered = false;
+    private bool attachedToMovable = false;
     
     AnimationSprite grappleRope;
     Player player;
 
     Vec2 ownPos;
     Vec2 playerPos;
-    Vec2 deltaPos;
+    public Vec2 deltaPos;
+    Vec2 parentPos;
 
     public GrappleHook(Vec2 vel, Vec2 pos, string fileName = "projectile-animation-spritesheet.png", int cols = 3, int rows = 2, int frames = 6) : base(vel, pos, fileName, cols, rows, frames)
     {
@@ -35,11 +37,19 @@ public class GrappleHook : Projectile
 
         //if (player == null) player = game.FindObjectOfType<Player>();
 
-        Step();
+        if (!hasTriggered) Step();
 
         ownPos = new Vec2(x, y);
         playerPos = new Vec2(player.x, player.y);
-        deltaPos = ownPos - playerPos;
+        if (!attachedToMovable)
+        {
+            deltaPos = ownPos - playerPos;
+        }
+        else
+        {
+            parentPos = new Vec2(parent.x, parent.y);
+            deltaPos = parentPos + ownPos - playerPos;
+        }
 
         GrappleRopeStuff();
 
@@ -47,7 +57,22 @@ public class GrappleHook : Projectile
         {
             if (hitSomething)
             {
-                GoForIt();
+                if (collision != null)
+                {
+                    collision.other.SetChildIndex(this, 0);
+                    x -= collision.other.x; 
+                    y -= collision.other.y;
+                    ownPos = new Vec2(x, y);
+                    parentPos = new Vec2(parent.x, parent.y);
+                    deltaPos = ownPos + parentPos - playerPos;
+                    attachedToMovable = true;
+                    hasTriggered = true;
+                }
+                else
+                {
+                    GoForIt();
+                }
+                
             }
         }
     }

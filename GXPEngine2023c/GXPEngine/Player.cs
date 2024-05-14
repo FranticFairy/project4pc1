@@ -42,6 +42,7 @@ public class Player : AnimationSprite
         SetOrigin(width / 2, height / 2);
         //Constants.positionPlayer = pos;
         //scale = 2f;
+        alpha = 0;
 
         level = Constants.level;
         collider.isTrigger = true;
@@ -66,8 +67,8 @@ public class Player : AnimationSprite
 
     protected override Collider createCollider()    // Custom hitbox THIS MIGHT SCREW THINGS UP
     {
-        EasyDraw BaseShape = new EasyDraw(128, 128, false); // width and height of hitbox
-        BaseShape.SetXY(-64, -64);                         // set to half that width and height
+        EasyDraw BaseShape = new EasyDraw(256, 128, false); // width and height of hitbox
+        BaseShape.SetXY(-128, -64);                         // set to half that width and height
         BaseShape.Clear(ColorTranslator.FromHtml("#55ff0000"));
         //BaseShape.ClearTransparent();     // Comment this out to see custom hitbox, uncomment to hide
         AddChild(BaseShape);
@@ -175,7 +176,7 @@ public class Player : AnimationSprite
         }
 
 
-        Animate(.1f);
+        //Animate(.1f);
     }
 
     private Vec2 getProjVec(string projType)
