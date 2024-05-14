@@ -8,11 +8,7 @@ using TiledMapParser;
 
 public class Level : GameObject
 {
-    private int xBoundarySize = 200;    // player distance until scrolling
-    private int yBoundarySize = 200;    // same but y
-
-    private float levelWidth = 2000;
-    private float levelHeight = 1000;
+    
 
     private List<Collectable> items = new List<Collectable>();
 
@@ -23,6 +19,21 @@ public class Level : GameObject
     private Button button;
 
 
+    List<SimplePlatform> _platforms;
+
+    public int GetNumberOfLines()
+    {
+        return _platforms.Count;
+    }
+
+    public SimplePlatform GetLine(int index)
+    {
+        if (index >= 0 && index < _platforms.Count)
+        {
+            return _platforms[index];
+        }
+        return null;
+    }
 
     public Level()
     {
@@ -30,51 +41,65 @@ public class Level : GameObject
         background.scaleX = 15f;
         background.scaleY = 15f;
         AddChild(background);
+        
 
-        //player = new Player();
-        //AddChild(player);
+        player = new Player(new Vec2(400, 400));
+        Constants.player = player;
+        AddChild(player);
 
+
+        _platforms = new List<SimplePlatform>();
         for (int i = 0; i < 20; i++)
         {
             SimplePlatform simplePlatform = new SimplePlatform(0, 0);
             simplePlatform.x = i * simplePlatform.width;
             simplePlatform.y = 900;
             AddChild(simplePlatform);
+            AddPlatform(i, 900, true);
         }
-        AddChild(new SimplePlatform(400, 850));
+        //AddChild(new SimplePlatform(400, 850));
+        //AddPlatform(400, 850);
+        AddPlatform(700, 400);
 
-        Collectable item = new Collectable(5, false);
+        Collectable item = new Collectable(false, 200, 800);
         items.Add(item);
 
-        killer = new Killer();
+        killer = new Killer(1000, 800);
         AddChild(killer);
 
-        button = new Button();
+        button = new Button(700, 800);
         button.addToConstants();
         AddChild(button);
 
         item.linkedButton = button;
 
         ui = new UI();
-        Constants.ui = ui;
         AddChild(ui);
+    }
+
+    void AddPlatform(float xPosPlatform, float yPosPlatform, bool useWidth = false)
+    {
+        SimplePlatform simplePlatform = new SimplePlatform(xPosPlatform, yPosPlatform);
+        if (useWidth) simplePlatform.x *= simplePlatform.width;
+        AddChild(simplePlatform);
+        _platforms.Add(simplePlatform);
     }
 
     public void HandleScroll()
     {
         if (player == null) return;
 
-        if (player.x + x < xBoundarySize) x = xBoundarySize - player.x;
-        if (player.y + y < yBoundarySize) y = yBoundarySize - player.y;
+        if (player.x + x < Constants.xBoundarySize) x = Constants.xBoundarySize - player.x;
+        if (player.y + y < Constants.yBoundarySize) y = Constants.yBoundarySize - player.y;
 
-        if (player.x + x > game.width - xBoundarySize) x = game.width - xBoundarySize - player.x;
-        if (player.y + y > game.height - yBoundarySize) y = game.height - yBoundarySize - player.y;
+        if (player.x + x > game.width - Constants.xBoundarySize) x = game.width - Constants.xBoundarySize - player.x;
+        if (player.y + y > game.height - Constants.yBoundarySize) y = game.height - Constants.yBoundarySize - player.y;
 
         if (x > 0) x = 0;   // making sure the camera doesn't see the void on the left
         if (y > 0) y = 0;   // same but on top
 
-        if (-x > levelWidth - game.width) x = -(levelWidth - game.width);   // right
-        if (-y > levelHeight - game.height) y = -(levelHeight - game.height); // bottom
+        if (-x > Constants.levelWidth - game.width) x = -(Constants.levelWidth - game.width);   // right
+        if (-y > Constants.levelHeight - game.height) y = -(Constants.levelHeight - game.height); // bottom
 
     }
 
@@ -105,13 +130,6 @@ public class Level : GameObject
             if(!button.triggered)
             {
                 button.checkToggle();
-            }
-        }
-        foreach(Collectable item in items)
-        {
-            if(item.spawned)
-            {
-                item.checkCollision();
             }
         }
 
