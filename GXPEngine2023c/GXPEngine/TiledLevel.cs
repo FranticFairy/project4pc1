@@ -51,6 +51,9 @@ namespace GXPEngine
                         case "Movable":
                             newObj = new Movable("circle.png", 1, 1);
                             break;
+                        case "Wind":
+                            newObj = new Wind("colors.png", 1, 1);
+                            break;
                     }
                     if (newObj != null)
                     {

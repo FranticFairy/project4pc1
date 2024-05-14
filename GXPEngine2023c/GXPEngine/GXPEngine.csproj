@@ -102,6 +102,7 @@
     <Compile Include="UI.cs" />
     <Compile Include="Vec2.cs" />
     <Compile Include="Wall.cs" />
+    <Compile Include="Wind.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
