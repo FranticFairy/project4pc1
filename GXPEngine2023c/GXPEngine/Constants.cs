@@ -10,7 +10,7 @@ namespace GXPEngine
     {
 
         // MYGAME VALUES
-        public static Level level;
+        public static TiledLevel level;
 
 
 

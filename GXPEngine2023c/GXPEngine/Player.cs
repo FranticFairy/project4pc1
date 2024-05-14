@@ -40,7 +40,7 @@ public class Player : AnimationSprite
     {
 
         SetOrigin(width / 2, height / 2);
-        Constants.positionPlayer = pos;
+        //Constants.positionPlayer = pos;
         //scale = 2f;
 
         level = Constants.level;

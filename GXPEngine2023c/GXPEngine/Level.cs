@@ -37,6 +37,7 @@ public class Level : GameObject
 
     public Level()
     {
+        /*
         background = new Sprite("square.png", false, false);
         background.scaleX = 15f;
         background.scaleY = 15f;
@@ -74,7 +75,7 @@ public class Level : GameObject
         item.linkedButton = button;
 
         ui = new UI();
-        AddChild(ui);
+        AddChild(ui);*/
     }
 
     void AddPlatform(float xPosPlatform, float yPosPlatform, bool useWidth = false)

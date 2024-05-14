@@ -34,7 +34,8 @@ public class MyGame : Game
         if (nextLevel != null)
         {
             DestroyAll();
-            AddChild(new TiledLevel(nextLevel));
+            Constants.level = new TiledLevel(nextLevel);
+            AddChild(Constants.level);
             currentLevel = nextLevel;
             nextLevel = null;
 

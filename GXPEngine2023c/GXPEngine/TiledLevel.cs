@@ -36,7 +36,8 @@ namespace GXPEngine
                         case "Player":
                             Player player = new Player();
                             newObj = player;
-                            player.setPos(obj.X + newObj.width / 2, obj.Y - newObj.height / 2);
+                            Constants.positionPlayer = new Vec2(obj.X + newObj.width / 2, obj.Y - newObj.height / 2);
+                            Constants.player = player;
                             break;
                         case "Killer":
                             newObj = new Killer();
