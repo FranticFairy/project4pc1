@@ -25,6 +25,7 @@ public class GrappleHook : Projectile
         grappleRope.SetOrigin(width, height / 2);
         grappleRope.collider.isTrigger = true;
         AddChild(grappleRope);
+        SetChildIndex(grappleRope, 0);
         GrappleRopeStuff();
     }
 

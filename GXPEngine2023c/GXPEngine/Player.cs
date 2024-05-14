@@ -130,15 +130,17 @@ public class Player : AnimationSprite
  
             if (MoveUntilCollision(0, velocity.y * deltaTimeFun) != null)
             {
-                Console.WriteLine(velocity);
                 velocity.y = 0;
                 isGrounded = true;
                 grappleAirborne = false;
                 coyoteTime = coyoteTimeMax;
             }
             else animInAir = true;  // ANIMATION IN AIR
-            if (MoveUntilCollision(velocity.x*deltaTimeFun, 0) != null)
+            Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, 0);
+            if (col != null)
             {
+                float aaa = y + 64 - col.other.y;
+                if (aaa < .150f && aaa > 0) y -= aaa;
                 velocity.x = 0;
             }
 
@@ -235,11 +237,18 @@ public class Player : AnimationSprite
             else if (Input.GetMouseButtonUp(0))
             {
                 level.AddChild(new BouncyProjectile(getProjVec("bounce"), Constants.positionPlayer));
+                BouncyProjectile[] foundProjs = game.FindObjectsOfType<BouncyProjectile>();
+                if (foundProjs.Length > Constants.bouncyProjLimit)  // limiting proj number
+                {
+                    foundProjs[0].LateDestroy();
+                }
+
             }
             else if (Input.GetMouseButtonUp(1))
             {
                 level.AddChild(new GrappleHook(getProjVec("grapple"), Constants.positionPlayer));
                 grappleIsShot = true;
+                level.SetChildIndex(this, 999); // Making sure the grapple rope is behind player
             }
         }
 

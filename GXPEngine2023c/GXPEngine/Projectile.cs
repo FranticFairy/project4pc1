@@ -194,6 +194,10 @@ public class Projectile : AnimationSprite
                 else
                 {
                     stopMoving = true;
+                    velocity = new Vec2(col.normal.x, col.normal.y);
+                    x -= col.normal.x*16;
+                    y -= col.normal.y*16;
+                    Constants.level.SetChildIndex(this, 1);
                 }
                 hitSomething = true;
 
@@ -243,6 +247,7 @@ public class Projectile : AnimationSprite
             sprite.rotation = velocity.GetAngleDegrees();
             sprite.SetCycle(0, 6);
             sprite.Animate(.1f);
+            if (stopMoving) sprite.SetFrame(0);
         }
 
         if (x < 0 || x > 5000 || y < 0 || y > 5000)
