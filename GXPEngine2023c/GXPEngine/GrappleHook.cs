@@ -16,16 +16,17 @@ public class GrappleHook : Projectile
     Vec2 playerPos;
     Vec2 deltaPos;
 
-    public GrappleHook(Vec2 vel, Vec2 pos, string fileName = "circle.png") : base(vel, pos, fileName)
+    public GrappleHook(Vec2 vel, Vec2 pos, string fileName = "projectile-animation-spritesheet.png", int cols = 3, int rows = 2, int frames = 6) : base(vel, pos, fileName, cols, rows, frames)
     {
         
         collider.isTrigger = true;
         player = Constants.player;
-        grappleRope = new AnimationSprite("circle.png", 1, 1);  // GRAPPLE ROPE ANIMATION THING
+        grappleRope = new AnimationSprite("grappling-slime-animation-spritesheet-3.png", 4, 3, 10);  // GRAPPLE ROPE ANIMATION THING
         grappleRope.SetOrigin(width, height / 2);
         grappleRope.collider.isTrigger = true;
         AddChild(grappleRope);
-
+        SetChildIndex(grappleRope, 0);
+        GrappleRopeStuff();
     }
 
 
@@ -53,10 +54,11 @@ public class GrappleHook : Projectile
 
     void GrappleRopeStuff()
     {
-
         float dist = deltaPos.Length();
         grappleRope.width = Mathf.Round(dist);
         grappleRope.rotation = deltaPos.GetAngleDegrees();
+        grappleRope.SetCycle(0, 10);
+        if (grappleRope.currentFrame < 9) grappleRope.Animate(.2f);
     }
 
     void GoForIt()
