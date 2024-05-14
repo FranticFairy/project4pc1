@@ -20,7 +20,6 @@ namespace GXPEngine
             loader.rootObject = this;
             loader.addColliders = false;
             loader.LoadObjectGroups(1);
-            loader.addColliders = true;
             loader.LoadObjectGroups(0);
             loader.autoInstance = true;
 
@@ -54,7 +53,6 @@ namespace GXPEngine
                         newObj.x = obj.X + newObj.width / 2;
                         newObj.y = obj.Y - newObj.height / 2;
                         AddChild(newObj);
-                        Console.WriteLine(obj.Name);
                     }
                 }
             }

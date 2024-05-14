@@ -36,7 +36,7 @@ public class Player : AnimationSprite
     private string lastAnim;
     private string lastInput;
 
-    public Player(string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
+    public Player(string fileName = "empty.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
 
         SetOrigin(width / 2, height / 2);
@@ -66,7 +66,7 @@ public class Player : AnimationSprite
 
     protected override Collider createCollider()    // Custom hitbox THIS MIGHT SCREW THINGS UP
     {
-        EasyDraw BaseShape = new EasyDraw(128, 128, false); // width and height of hitbox
+        EasyDraw BaseShape = new EasyDraw(127, 127, false); // width and height of hitbox
         BaseShape.SetXY(-64, -64);                         // set to half that width and height
         BaseShape.Clear(ColorTranslator.FromHtml("#55ff0000"));
         //BaseShape.ClearTransparent();     // Comment this out to see custom hitbox, uncomment to hide
