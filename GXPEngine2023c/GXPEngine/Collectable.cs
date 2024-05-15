@@ -11,7 +11,7 @@ public class Collectable : AnimationSprite
 {
     //Collectables are goo pickups. You touch them to get more Goo. Simple as that.
 
-    public int value = 2;
+    public int value;
     public float xPos;
     public float yPos;
 
@@ -24,7 +24,7 @@ public class Collectable : AnimationSprite
         SetOrigin(width / 2, height / 2);
         collider.isTrigger = true;
         //this.value = value;
-        value = tiledObject.GetIntProperty("value",2);
+        value = tiledObject.GetIntProperty("value",4);
 
     }
 

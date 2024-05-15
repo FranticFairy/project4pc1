@@ -38,6 +38,7 @@ public class Player : AnimationSprite
 
     public Player(string fileName = "empty.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
+        alpha = 0;
 
         SetOrigin(width / 2, height / 2);
         //Constants.positionPlayer = pos;
