@@ -38,8 +38,9 @@ public class Player : AnimationSprite
     private string lastAnim;
     private string lastInput;
 
-    public Player(string fileName = "barry.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
+    public Player(string fileName = "empty.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
+        alpha = 0;
 
         SetOrigin(width / 2, height / 2);
         //Constants.positionPlayer = pos;
@@ -69,6 +70,7 @@ public class Player : AnimationSprite
 
     protected override Collider createCollider()    // Custom hitbox THIS MIGHT SCREW THINGS UP
     {
+        // set to half that width and height
         EasyDraw BaseShape = new EasyDraw(256, 128, false); // width and height of hitbox
         BaseShape.SetXY(-128, -64);                         // set to half that width and height
         BaseShape.Clear(ColorTranslator.FromHtml("#55ff0000"));

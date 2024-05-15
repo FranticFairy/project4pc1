@@ -3,3 +3,11 @@ GXPEngine/obj
 GXPEngine.userprefs
 GXPEngine/bin/Debug
 GXPEngine/bin/Release
+GXPEngine2023c/GXPEngine/obj/x86/Debug/GXPEngine.pdb
+GXPEngine2023c/GXPEngine/obj/x86/Debug/GXPEngine.exe
+GXPEngine2023c/GXPEngine/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+GXPEngine2023c/GXPEngine/bin/Debug/GXPEngine.pdb
+GXPEngine2023c/GXPEngine/bin/Debug/GXPEngine.exe
+GXPEngine2023c/GXPEngine/obj/x86/Debug/GXPEngine.pdb
+*.exe
+*.pdb
