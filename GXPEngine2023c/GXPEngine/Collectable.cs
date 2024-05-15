@@ -24,6 +24,7 @@ public class Collectable : AnimationSprite
         SetOrigin(width / 2, height / 2);
         collider.isTrigger = true;
         //this.value = value;
+        value = tiledObject.GetIntProperty("value",2);
 
     }
 
