@@ -142,6 +142,11 @@ public class Player : AnimationSprite
             Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, 0);
             if (col != null)
             {
+                if (col.other.GetType() == typeof(Movable))
+                {
+                    col.other.MoveUntilCollision(velocity.x * deltaTimeFun, 0);
+                }
+
                 float aaa = y + 64 - col.other.y;
                 if (aaa < .150f && aaa > 0) y -= aaa;
                 velocity.x = 0;
