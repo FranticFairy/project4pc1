@@ -14,7 +14,7 @@ public class Projectile : AnimationSprite
     public bool hitSomething;
 
     private int bounceCount = 0;
-    private bool stopMoving = false;
+    public bool stopMoving = false;
     public Vec2 wind = new Vec2(0,0);
     private Vec2 velocity;
     private Vec2 position;

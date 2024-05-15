@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GXPEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,14 @@ public class BouncyProjectile : Projectile
     void Update()
     {
         Step();
+        GameObject[] collisions = GetCollisions();
+        for (int i = 0; i < collisions.Length; i++)
+        {
+            if (collisions[i].GetType() == typeof(Button))
+            {
+                stopMoving = true;
+            }
+        }
     }
     
 }

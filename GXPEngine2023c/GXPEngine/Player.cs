@@ -248,6 +248,7 @@ public class Player : AnimationSprite
             else if (Input.GetMouseButtonUp(0))
             {
                 level.AddChild(new BouncyProjectile(getProjVec("bounce"), Constants.positionPlayer));
+                Constants.goo -= Constants.shotCost; //Use up goo when firing.
                 BouncyProjectile[] foundProjs = game.FindObjectsOfType<BouncyProjectile>();
                 if (foundProjs.Length > Constants.bouncyProjLimit)  // limiting proj number
                 {
@@ -259,6 +260,7 @@ public class Player : AnimationSprite
             {
                 level.AddChild(new GrappleHook(getProjVec("grapple"), Constants.positionPlayer));
                 grappleIsShot = true;
+                Constants.goo -= Constants.hookCost; //Use up goo when firing.
                 level.SetChildIndex(this, 999); // Making sure the grapple rope is behind player
             }
         }
@@ -441,6 +443,10 @@ public class Player : AnimationSprite
             counter = 0;
             checkCollision();
             Animation();
+            if(Constants.goo < 1)
+            {
+                Constants.dead = true;
+            }
         }
 
     }

@@ -11,6 +11,7 @@ public class MyGame : Game
     {
         OnAfterStep += CheckLoadLevel;
         LoadLevel("Level1.tmx");
+        Constants.goo = Constants.startGoo;
     }
 
     public void LoadLevel(string filename)
@@ -51,7 +52,7 @@ public class MyGame : Game
 			foreach(var child in GetChildren())
 			{
                 DestroyAll();
-                Constants.goo = 0;
+                Constants.goo = Constants.startGoo;
             }
             LoadLevel("Level1.tmx");
             Constants.dead = false;

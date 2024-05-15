@@ -52,6 +52,7 @@ public class Collectable : AnimationSprite
         if (!spawned)
         {
             visible = false;
+            bool toSpawn = true;
 
             if (buttonID != null && buttonID != "")
             {
@@ -59,28 +60,32 @@ public class Collectable : AnimationSprite
                 {
                     if (button.buttonID == buttonID)
                     {
-                        if (button.triggered == true)
+                        if (button.triggered == false)
                         {
-                            spawned = true;
-                            visible = true;
+                            toSpawn = false;
                         }
                     }
                 }
-            } else
+            }
+            if (plateGroupID != null && plateGroupID != "")
             {
                 foreach (PressurePlate plate in Constants.plates)
                 {
                     if (plate.plateGroupID == plateGroupID)
                     {
-                        if (plate.completed == true)
+                        if (plate.completed == false)
                         {
-                            spawned = true;
-                            visible = true;
-                            break;
+                            toSpawn = false;
                         }
                     }
                 }
             }
+            if(toSpawn)
+            {
+                spawned = true;
+                visible = true;
+            }
+
         }
         else
         {

@@ -69,8 +69,12 @@ namespace GXPEngine
 
 
         public static UI ui;
-        //highScore will be reworked later.
-        public static int goo;
+
+        public static int goo; //How much Goo does the player spawn with?
+        public static int startGoo = 3; //How much Goo does the player spawn with?
+
+        public static int shotCost = 1; //How much goo is consumed on firing?
+        public static int hookCost = 1; //How much goo is consumed upon grappling?
 
         public static bool dead = false;
 
