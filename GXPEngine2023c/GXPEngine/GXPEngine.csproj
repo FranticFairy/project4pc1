@@ -55,6 +55,7 @@
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="Killer.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="Movable.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="UI.cs" />
     <Compile Include="Vec2.cs" />
     <Compile Include="Wall.cs" />
+    <Compile Include="Wind.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

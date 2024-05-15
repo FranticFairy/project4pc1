@@ -15,12 +15,14 @@ public class Projectile : AnimationSprite
 
     private int bounceCount = 0;
     private bool stopMoving = false;
+    public Vec2 wind = new Vec2(0,0);
     private Vec2 velocity;
     private Vec2 position;
     private Vec2 oldPosition;
 
     private AnimationSprite sprite;
-    
+    public Collision collision;
+    private float deltaTimeFun;
 
     public Projectile(Vec2 vel, Vec2 pos, string fileName = "circle.png", int cols = 1, int rows = 1, int frames = 1) : base(fileName, cols, rows, frames)
     {
@@ -174,10 +176,20 @@ public class Projectile : AnimationSprite
             oldPosition = position;
 
             float deltaTimeClamped = useDeltaTime ? Mathf.Min(Time.deltaTime, 40) : 1000 / 120;
-            float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
+            deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
 
             velocity.y += Constants.gravityProj*deltaTimeFun;
 
+            if (wind.Length() > 0)
+            {
+                velocity += wind*deltaTimeFun*Constants.windPower;
+                wind = new Vec2(0, 0);
+            }
+
+            if (velocity.Length() > Constants.maxProjSpeed)
+            {
+                velocity = velocity.Normalized() * Constants.maxProjSpeed;
+            }
         
             Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
             //position.x = x;
@@ -198,6 +210,8 @@ public class Projectile : AnimationSprite
                     x -= col.normal.x*16;
                     y -= col.normal.y*16;
                     Constants.level.SetChildIndex(this, 1);
+                    //Console.WriteLine(col.other.GetType());
+                    if (col.other.GetType() == typeof(Movable)) collision = col;
                 }
                 hitSomething = true;
 
@@ -246,7 +260,7 @@ public class Projectile : AnimationSprite
         {
             sprite.rotation = velocity.GetAngleDegrees();
             sprite.SetCycle(0, 6);
-            sprite.Animate(.1f);
+            sprite.Animate(Constants.animProjSpd*deltaTimeFun);
             if (stopMoving) sprite.SetFrame(0);
         }
 

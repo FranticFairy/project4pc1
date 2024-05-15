@@ -24,6 +24,8 @@ public class Player : AnimationSprite
 
     private int goo;
 
+    private float deltaTimeFun;
+
     // ANIMATIONS
     private bool animShooting;
     private bool animInAir;
@@ -43,6 +45,7 @@ public class Player : AnimationSprite
         SetOrigin(width / 2, height / 2);
         //Constants.positionPlayer = pos;
         //scale = 2f;
+        alpha = 0;
 
         level = Constants.level;
         collider.isTrigger = true;
@@ -67,8 +70,9 @@ public class Player : AnimationSprite
 
     protected override Collider createCollider()    // Custom hitbox THIS MIGHT SCREW THINGS UP
     {
-        EasyDraw BaseShape = new EasyDraw(127, 127, false); // width and height of hitbox
-        BaseShape.SetXY(-64, -64);                         // set to half that width and height
+        // set to half that width and height
+        EasyDraw BaseShape = new EasyDraw(256, 128, false); // width and height of hitbox
+        BaseShape.SetXY(-128, -64);                         // set to half that width and height
         BaseShape.Clear(ColorTranslator.FromHtml("#55ff0000"));
         //BaseShape.ClearTransparent();     // Comment this out to see custom hitbox, uncomment to hide
         AddChild(BaseShape);
@@ -89,7 +93,7 @@ public class Player : AnimationSprite
     {
 
         int deltaTimeClamped = Mathf.Min(Time.deltaTime, 40);
-        float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
+        deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
         //deltaTimeFun = 1f;
 
         //SetCycle(0, 7);
@@ -140,6 +144,11 @@ public class Player : AnimationSprite
             Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, 0);
             if (col != null)
             {
+                if (col.other.GetType() == typeof(Movable))
+                {
+                    col.other.MoveUntilCollision(velocity.x * deltaTimeFun, 0);
+                }
+
                 float aaa = y + 64 - col.other.y;
                 if (aaa < .150f && aaa > 0) y -= aaa;
                 velocity.x = 0;
@@ -176,7 +185,7 @@ public class Player : AnimationSprite
         }
 
 
-        Animate(.1f);
+        //Animate(.1f);
     }
 
     private Vec2 getProjVec(string projType)
@@ -286,9 +295,9 @@ public class Player : AnimationSprite
             animGoo.SetCycle(0, 16);
             animBody.SetCycle(0, 11);
 
-            if (animLegs.currentFrame != animLegs.frameCount-1) animLegs.Animate(.5f);
-            animGoo.Animate(.5f);
-            if (animBody.currentFrame != animBody.frameCount-1) animBody.Animate(.5f);
+            if (animLegs.currentFrame != animLegs.frameCount-1) animLegs.Animate(Constants.animPlayerShootingSpd * deltaTimeFun);
+            animGoo.Animate(Constants.animPlayerShootingSpd * deltaTimeFun);
+            if (animBody.currentFrame != animBody.frameCount-1) animBody.Animate(Constants.animPlayerShootingSpd * deltaTimeFun);
             lastAnim = "shooting";
         }
         else if (animInAir)
@@ -322,8 +331,8 @@ public class Player : AnimationSprite
             animBody.SetCycle(0, 4);
 
             animLegs.currentFrame = 11; //animLegs.Animate(.5f);
-            animGoo.Animate(.1f);
-            animBody.Animate(.1f);
+            animGoo.Animate(Constants.animPlayerInAirSpd * deltaTimeFun);
+            animBody.Animate(Constants.animPlayerInAirSpd * deltaTimeFun);
 
             lastAnim = "inair";
         }
@@ -357,9 +366,9 @@ public class Player : AnimationSprite
             animGoo.SetCycle(0, 17);
             animBody.SetCycle(0, 17);
 
-            animLegs.Animate(.1f);
-            animGoo.Animate(.1f);
-            animBody.Animate(.1f);
+            animLegs.Animate(Constants.animPlayerWalkingSpd * deltaTimeFun);
+            animGoo.Animate(Constants.animPlayerWalkingSpd * deltaTimeFun);
+            animBody.Animate(Constants.animPlayerWalkingSpd * deltaTimeFun);
             lastAnim = "walking";
         }
         else
@@ -392,9 +401,9 @@ public class Player : AnimationSprite
             animGoo.SetCycle(0, 16);
             animBody.SetCycle(0, 16);
 
-            animLegs.Animate(.1f);
-            animGoo.Animate(.1f);
-            animBody.Animate(.1f);
+            animLegs.Animate(Constants.animPlayerIdleSpd * deltaTimeFun);
+            animGoo.Animate(Constants.animPlayerIdleSpd * deltaTimeFun);
+            animBody.Animate(Constants.animPlayerIdleSpd * deltaTimeFun);
             lastAnim = "idle";
         }
 
