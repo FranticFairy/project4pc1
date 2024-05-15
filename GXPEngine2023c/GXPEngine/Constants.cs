@@ -23,6 +23,7 @@ namespace GXPEngine
         // no need to change
         public static Player player;
 
+
         // PLAYER VALUES
 
         // Movement
@@ -54,7 +55,8 @@ namespace GXPEngine
         public static float gravityProj = .1f;          // projectile gravity value
         public static float bounciness = .98f;          // force given back after bounce. 1 = 100%
         public static int bouncyProjLimit = 3;          // max amount of bouncy proj
-
+        public static float windPower = 1;              // bigger number = stronger wind
+        public static float maxProjSpeed = 20f;         // max speed a projectile can have
 
 
         public static UI ui;

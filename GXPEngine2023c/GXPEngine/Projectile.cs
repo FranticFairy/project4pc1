@@ -15,6 +15,7 @@ public class Projectile : AnimationSprite
 
     private int bounceCount = 0;
     private bool stopMoving = false;
+    public Vec2 wind = new Vec2(0,0);
     private Vec2 velocity;
     private Vec2 position;
     private Vec2 oldPosition;
@@ -179,6 +180,16 @@ public class Projectile : AnimationSprite
 
             velocity.y += Constants.gravityProj*deltaTimeFun;
 
+            if (wind.Length() > 0)
+            {
+                velocity += wind*deltaTimeFun*Constants.windPower;
+                wind = new Vec2(0, 0);
+            }
+
+            if (velocity.Length() > Constants.maxProjSpeed)
+            {
+                velocity = velocity.Normalized() * Constants.maxProjSpeed;
+            }
         
             Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
             //position.x = x;
