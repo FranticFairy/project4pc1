@@ -182,8 +182,13 @@ public class Projectile : AnimationSprite
 
             if (wind.Length() > 0)
             {
-                velocity += wind;
+                velocity += wind*deltaTimeFun*Constants.windPower;
                 wind = new Vec2(0, 0);
+            }
+
+            if (velocity.Length() > Constants.maxProjSpeed)
+            {
+                velocity = velocity.Normalized() * Constants.maxProjSpeed;
             }
         
             Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);

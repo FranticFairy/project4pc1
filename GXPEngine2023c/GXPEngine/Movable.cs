@@ -14,14 +14,14 @@ public class Movable : AnimationSprite
     private Vec2 velocity = new Vec2(0,0);
     private float gravity = .1f;
     private bool inAir = false;
-    public Movable(string fileName, int cols, int rows, TiledObject tiledObject = null) : base(fileName, cols, rows)
+    public Movable(string fileName = "circle.png", int cols = 1, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
         //collider.isTrigger = true;
         //scale = 2f;
         SetOrigin(width / 2, height / 2);
 
     }
-
+    
 
     void Update()
     {

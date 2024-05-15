@@ -19,9 +19,9 @@ namespace GXPEngine
             loader.LoadTileLayers(0);
             loader.rootObject = this;
             loader.addColliders = false;
-            loader.LoadObjectGroups(1);
+            //loader.LoadObjectGroups(1);
             loader.addColliders = true;
-            loader.LoadObjectGroups(0);
+            //loader.LoadObjectGroups(0);
             loader.autoInstance = true;
 
             Map map = MapParser.ReadMap(MapName);
@@ -49,10 +49,10 @@ namespace GXPEngine
                             newObj = new Collectable(5, false);
                             break;
                         case "Movable":
-                            newObj = new Movable("circle.png", 1, 1);
+                            newObj = new Movable();
                             break;
                         case "Wind":
-                            newObj = new Wind("colors.png", 1, 1);
+                            newObj = new Wind();
                             break;
                     }
                     if (newObj != null)

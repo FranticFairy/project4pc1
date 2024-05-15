@@ -10,10 +10,10 @@ public class Wind : AnimationSprite
 {
     private Vec2 windDirection;
     private Projectile projectile;
-    public Wind(string fileName, int cols, int rows, TiledObject tiledObject = null) : base(fileName, cols, rows)
+    public Wind(string fileName = "colors.png", int cols = 1, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
         collider.isTrigger = true;
-        scale = 2f;
+        //scale = 2f;
         //alpha = .1f;
         SetOrigin(width / 2, height / 2);
         windDirection = new Vec2(1, 0);
