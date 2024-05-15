@@ -30,12 +30,13 @@ public class MyGame : Game
 
     void CheckLoadLevel()
     {
-
         if (nextLevel != null)
         {
             DestroyAll();
             Constants.level = new TiledLevel(nextLevel);
             AddChild(Constants.level);
+            Constants.ui = new UI();
+            AddChild(Constants.ui);
             currentLevel = nextLevel;
             nextLevel = null;
 
