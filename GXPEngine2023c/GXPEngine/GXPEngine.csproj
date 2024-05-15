@@ -42,9 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AimTrajectory.cs" />
+    <Compile Include="BorderWall.cs" />
+    <Compile Include="Box.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Collectable.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Door.cs" />
     <Compile Include="BouncyProjectile.cs" />
     <Compile Include="GrappleHook.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
@@ -52,6 +55,7 @@
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="Killer.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="Movable.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -91,10 +95,14 @@
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PressurePlate.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="SimplePlatform.cs" />
+    <Compile Include="TiledLevel.cs" />
     <Compile Include="UI.cs" />
     <Compile Include="Vec2.cs" />
+    <Compile Include="Wall.cs" />
+    <Compile Include="Wind.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
