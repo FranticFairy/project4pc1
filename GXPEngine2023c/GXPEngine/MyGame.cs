@@ -10,7 +10,7 @@ public class MyGame : Game
     public MyGame() : base(1920, 1080, false/*, true, 1920, 1080, true*/)
     {
         OnAfterStep += CheckLoadLevel;
-        LoadLevel("map.tmx");
+        LoadLevel("Level1.tmx");
     }
 
     public void LoadLevel(string filename)
@@ -53,8 +53,12 @@ public class MyGame : Game
                 DestroyAll();
                 Constants.goo = 0;
             }
-            LoadLevel("map.tmx");
+            LoadLevel("Level1.tmx");
             Constants.dead = false;
+        }
+        if(Constants.level != null)
+        {
+            Constants.level.Update();
         }
     }
 

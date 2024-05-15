@@ -75,7 +75,7 @@ namespace GXPEngine
         public static bool dead = false;
 
         public static List<Button> buttons = new List<Button>();
-        public static List<bool> buttonStates = new List<bool>();
+        public static List<PressurePlate> plates = new List<PressurePlate>();
 
     }
 

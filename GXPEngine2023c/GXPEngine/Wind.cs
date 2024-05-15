@@ -32,7 +32,7 @@ public class Wind : AnimationSprite
         for (int i = 0; i < collisions.Length; i++)
         {
 
-            if (collisions[i].GetType() == typeof(GrappleHook))
+            if (collisions[i].GetType() == typeof(GrappleHook) || collisions[i].GetType() == typeof(BouncyProjectile))
             {
                 projectile = (Projectile)collisions[i];
                 projectile.wind = windDirection;
