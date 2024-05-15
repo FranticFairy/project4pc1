@@ -24,6 +24,8 @@ public class Player : AnimationSprite
 
     private int goo;
 
+    private float deltaTimeFun;
+
     // ANIMATIONS
     private bool animShooting;
     private bool animInAir;
@@ -89,7 +91,7 @@ public class Player : AnimationSprite
     {
 
         int deltaTimeClamped = Mathf.Min(Time.deltaTime, 40);
-        float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
+        deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
         //deltaTimeFun = 1f;
 
         //SetCycle(0, 7);
@@ -286,9 +288,9 @@ public class Player : AnimationSprite
             animGoo.SetCycle(0, 16);
             animBody.SetCycle(0, 11);
 
-            if (animLegs.currentFrame != animLegs.frameCount-1) animLegs.Animate(.5f);
-            animGoo.Animate(.5f);
-            if (animBody.currentFrame != animBody.frameCount-1) animBody.Animate(.5f);
+            if (animLegs.currentFrame != animLegs.frameCount-1) animLegs.Animate(Constants.animPlayerShootingSpd * deltaTimeFun);
+            animGoo.Animate(Constants.animPlayerShootingSpd * deltaTimeFun);
+            if (animBody.currentFrame != animBody.frameCount-1) animBody.Animate(Constants.animPlayerShootingSpd * deltaTimeFun);
             lastAnim = "shooting";
         }
         else if (animInAir)
@@ -322,8 +324,8 @@ public class Player : AnimationSprite
             animBody.SetCycle(0, 4);
 
             animLegs.currentFrame = 11; //animLegs.Animate(.5f);
-            animGoo.Animate(.1f);
-            animBody.Animate(.1f);
+            animGoo.Animate(Constants.animPlayerInAirSpd * deltaTimeFun);
+            animBody.Animate(Constants.animPlayerInAirSpd * deltaTimeFun);
 
             lastAnim = "inair";
         }
@@ -357,9 +359,9 @@ public class Player : AnimationSprite
             animGoo.SetCycle(0, 17);
             animBody.SetCycle(0, 17);
 
-            animLegs.Animate(.1f);
-            animGoo.Animate(.1f);
-            animBody.Animate(.1f);
+            animLegs.Animate(Constants.animPlayerWalkingSpd * deltaTimeFun);
+            animGoo.Animate(Constants.animPlayerWalkingSpd * deltaTimeFun);
+            animBody.Animate(Constants.animPlayerWalkingSpd * deltaTimeFun);
             lastAnim = "walking";
         }
         else
@@ -392,9 +394,9 @@ public class Player : AnimationSprite
             animGoo.SetCycle(0, 16);
             animBody.SetCycle(0, 16);
 
-            animLegs.Animate(.1f);
-            animGoo.Animate(.1f);
-            animBody.Animate(.1f);
+            animLegs.Animate(Constants.animPlayerIdleSpd * deltaTimeFun);
+            animGoo.Animate(Constants.animPlayerIdleSpd * deltaTimeFun);
+            animBody.Animate(Constants.animPlayerIdleSpd * deltaTimeFun);
             lastAnim = "idle";
         }
 

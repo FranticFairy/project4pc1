@@ -45,6 +45,12 @@ namespace GXPEngine
         public static int aimTrajectoryAmount = 5;      // amount of white circles for aim trajectory
         public static int aimTrajectoryDist = 5;        // amount of frames between the circles
 
+        // Animation                                       bigger value = faster animation
+        public static float animPlayerShootingSpd = .5f;// animation speed for shooting
+        public static float animPlayerInAirSpd = .1f;   // same for when player is in the air
+        public static float animPlayerWalkingSpd = .1f; // same but walking
+        public static float animPlayerIdleSpd = .1f;    // same but idle (doing nothing)
+
         // No need to change
         public static Vec2 positionPlayer;
 
@@ -57,6 +63,9 @@ namespace GXPEngine
         public static int bouncyProjLimit = 3;          // max amount of bouncy proj
         public static float windPower = 1;              // bigger number = stronger wind
         public static float maxProjSpeed = 20f;         // max speed a projectile can have
+
+        public static float animProjSpd = .1f;          // projectile animation speed
+
 
 
         public static UI ui;

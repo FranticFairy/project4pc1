@@ -22,7 +22,7 @@ public class Projectile : AnimationSprite
 
     private AnimationSprite sprite;
     public Collision collision;
-    
+    private float deltaTimeFun;
 
     public Projectile(Vec2 vel, Vec2 pos, string fileName = "circle.png", int cols = 1, int rows = 1, int frames = 1) : base(fileName, cols, rows, frames)
     {
@@ -176,7 +176,7 @@ public class Projectile : AnimationSprite
             oldPosition = position;
 
             float deltaTimeClamped = useDeltaTime ? Mathf.Min(Time.deltaTime, 40) : 1000 / 120;
-            float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
+            deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
 
             velocity.y += Constants.gravityProj*deltaTimeFun;
 
@@ -260,7 +260,7 @@ public class Projectile : AnimationSprite
         {
             sprite.rotation = velocity.GetAngleDegrees();
             sprite.SetCycle(0, 6);
-            sprite.Animate(.1f);
+            sprite.Animate(Constants.animProjSpd*deltaTimeFun);
             if (stopMoving) sprite.SetFrame(0);
         }
 
