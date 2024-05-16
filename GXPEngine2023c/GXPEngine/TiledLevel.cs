@@ -13,6 +13,8 @@ internal class TiledLevel : GameObject
     private Player Player;
     private Killer Killer;
 
+    Sprite background;
+
     public TiledLevel(string MapName)
     {
         TiledLoader loader = new TiledLoader(MapName);
@@ -82,6 +84,9 @@ internal class TiledLevel : GameObject
         Killer = FindObjectOfType<Killer>();
         Player = FindObjectOfType<Player>();
         */
+
+        background = new Sprite("BG1.png", false, false);
+        AddChild(background);
     }
 
     public void HandleScroll()

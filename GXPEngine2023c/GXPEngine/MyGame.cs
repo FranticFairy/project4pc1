@@ -115,10 +115,7 @@ public class MyGame : Game
         if (nextLevel != null)
         {
             DestroyAll();
-            Sprite background = new Sprite("BG1.png",false,false);
-            background.SetOrigin(background.width / 2, background.height / 2);
-            background.SetXY(400, 400);
-            AddChild(background);
+
             SetSound();
             Constants.level = new TiledLevel(nextLevel);
             AddChild(Constants.level);
