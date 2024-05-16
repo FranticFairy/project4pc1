@@ -17,6 +17,7 @@ public class PressurePlate : AnimationSprite
     public bool triggered = false;
     public bool completed = false;
     public string plateGroupID;
+    private Sprite toggledPlate = new Sprite("PressedPlate.png", false, false);
 
     //When triggered, run a funciton to check all other pressureplates with the same groupID, if they are all triggered, set all to Complete
 
@@ -27,6 +28,10 @@ public class PressurePlate : AnimationSprite
 
         plateGroupID = tiledObject.GetStringProperty("plateGroupID", "");
         Constants.plates.Add(this);
+
+        toggledPlate.alpha = 0;
+        toggledPlate.SetOrigin(toggledPlate.width / 2, toggledPlate.height / 2);
+        AddChild(toggledPlate);
     }
 
     public void setComplete()
@@ -36,14 +41,21 @@ public class PressurePlate : AnimationSprite
 
     public void checkToggle()
     {
+        if(!completed)
+        {
+            alpha = 1;
+            toggledPlate.alpha = 0;
+        }
+        bool hasCollisions = false;
         GameObject[] collisions = GetCollisions();
         for (int i = 0; i < collisions.Length; i++)
         {
             if (collisions[i].GetType() == typeof(Player) || collisions[i].GetType() == typeof(Movable))
             {
-
-
+                hasCollisions = true;
                 triggered = true;
+                alpha = 0;
+                toggledPlate.alpha = 1;
 
                 bool allTriggered = true;
 
@@ -70,10 +82,11 @@ public class PressurePlate : AnimationSprite
                     }
                 }
 
-            } else
-            {
-                triggered = false;
             }
+        }
+        if(hasCollisions == false)
+        {
+            triggered = false;
         }
     }
 

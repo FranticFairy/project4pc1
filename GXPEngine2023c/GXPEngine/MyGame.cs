@@ -25,6 +25,7 @@ public class MyGame : Game
     {
         soundSystem = Constants.soundSystem;
 
+
         channel1 = soundSystem.CreateStream("audio/Song_start_location.mp3", true);
         channel2 = soundSystem.CreateStream("audio/Song_hallway_with_doors.mp3", true);
         channel3 = soundSystem.CreateStream("audio/Song_higher_background_with_two_platforms.mp3", true);
@@ -114,11 +115,15 @@ public class MyGame : Game
         if (nextLevel != null)
         {
             DestroyAll();
+            Sprite background = new Sprite("BG1.png",false,false);
+            background.SetOrigin(background.width / 2, background.height / 2);
+            background.SetXY(400, 400);
+            AddChild(background);
             SetSound();
             Constants.level = new TiledLevel(nextLevel);
             AddChild(Constants.level);
             Constants.ui = new UI();
-            AddChild(Constants.ui);
+            //AddChild(Constants.ui);
             currentLevel = nextLevel;
             nextLevel = null;
 
@@ -185,10 +190,6 @@ public class MyGame : Game
             //LoadLevel(Constants.level1);
             LoadLevel(currentLevel);
             Constants.dead = false;
-        }
-        if(Constants.level != null)
-        {
-            Constants.level.Update();
         }
     }
 

@@ -40,6 +40,8 @@ internal class TiledLevel : GameObject
         Constants.levelHeight = loader.map.Height * loader.map.TileHeight;
         Constants.levelWidth = loader.map.Width * loader.map.TileWidth;
 
+
+
         /*
         Map map = MapParser.ReadMap(MapName);
         //ObjectGroup objectGroup = map.ObjectGroups[0];

@@ -110,8 +110,7 @@ public class Level : GameObject
     }
 
     void Update()
-    {
-        
+    {        
         HandleScroll();
         checkPuzzles();
         ui.updateHUD();

@@ -25,6 +25,7 @@ public class Collectable : AnimationSprite
 
     public Collectable(string imageFile, int columns, int rows, TiledObject tiledObject = null) : base(imageFile, columns, rows)
     {
+        imageFile = "terrain.png";
 
         SetOrigin(width / 2, height / 2);
         collider.isTrigger = true;
