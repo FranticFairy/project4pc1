@@ -53,7 +53,6 @@ public class PressurePlate : AnimationSprite
                     {
                         if(!plate.triggered)
                         {
-                            Console.WriteLine("Not Triggered!");
                             allTriggered = false;
                         }
                     }
