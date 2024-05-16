@@ -17,28 +17,7 @@
    </wangset>
   </wangsets>
  </tileset>
- <tileset firstgid="19" name="Objects" tilewidth="64" tileheight="64" tilecount="24" columns="12">
-  <image source="Objects.png" width="768" height="128"/>
-  <tile id="1">
-   <properties>
-    <property name="buttonID" value=""/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="buttonID" value=""/>
-    <property name="plateGroupID" value=""/>
-    <property name="spawned" type="bool" value="true"/>
-    <property name="value" type="int" value="4"/>
-   </properties>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="plateGroupID" value=""/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="43" name="Objects" tilewidth="128" tileheight="128" tilecount="6" columns="6">
+ <tileset firstgid="19" name="Objects" tilewidth="128" tileheight="128" tilecount="6" columns="6">
   <image source="Objects.png" width="768" height="128"/>
   <tile id="1">
    <properties>
@@ -103,68 +82,5 @@
 8,8,7,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="Object Layer 1">
-  <object id="24" name="Player" type="Player" gid="19" x="768" y="2112" width="64" height="64"/>
-  <object id="29" type="Collectable" gid="21" x="576" y="2176" width="64" height="64">
-   <properties>
-    <property name="value" type="int" value="6"/>
-   </properties>
-  </object>
-  <object id="30" type="Killer" gid="22" x="512" y="2368" width="64" height="64"/>
-  <object id="31" type="Killer" gid="22" x="512" y="2432" width="64" height="64"/>
-  <object id="32" name="Button" type="Button" gid="20" x="640" y="2368" width="64" height="64">
-   <properties>
-    <property name="buttonID" value="ButtonShootTest"/>
-   </properties>
-  </object>
-  <object id="33" type="Collectable" gid="21" x="768" y="2432" width="64" height="64">
-   <properties>
-    <property name="buttonID" value="ButtonShootTest"/>
-    <property name="plateGroupID" value=""/>
-    <property name="spawned" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="34" type="Collectable" gid="21" x="832" y="2432" width="64" height="64">
-   <properties>
-    <property name="buttonID" value="ButtonShootTest"/>
-    <property name="spawned" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="36" type="PressurePlate" gid="24" x="1344" y="2432" width="64" height="64">
-   <properties>
-    <property name="plateGroupID" value="PressurePlateTest"/>
-   </properties>
-  </object>
-  <object id="37" type="PressurePlate" gid="24" x="1920" y="2432" width="64" height="64">
-   <properties>
-    <property name="plateGroupID" value="PressurePlateTest"/>
-   </properties>
-  </object>
-  <object id="38" type="Movable" gid="23" x="1536" y="2368" width="64" height="64"/>
-  <object id="39" type="Collectable" gid="21" x="1664" y="2368" width="64" height="64">
-   <properties>
-    <property name="plateGroupID" value="PressurePlateTest"/>
-    <property name="spawned" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="40" type="Collectable" gid="21" x="1728" y="2368" width="64" height="64">
-   <properties>
-    <property name="plateGroupID" value="PressurePlateTest"/>
-    <property name="spawned" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="41" name="Button" type="Button" gid="20" x="512" y="2048" width="64" height="64">
-   <properties>
-    <property name="buttonID" value="ButtonShootTest2"/>
-   </properties>
-  </object>
-  <object id="42" type="Collectable" gid="21" x="640" y="2432" width="64" height="64">
-   <properties>
-    <property name="buttonID" value="ButtonShootTest2"/>
-    <property name="plateGroupID" value=""/>
-    <property name="spawned" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="43" name="Wind" type="Wind" gid="19" x="1216" y="2240" width="64" height="64"/>
- </objectgroup>
+ <objectgroup id="2" name="Object Layer 1"/>
 </map>
