@@ -49,6 +49,8 @@ public class Collectable : AnimationSprite
                 Constants.ui.updateHUD();
                 value = 0;
                 LateDestroy();
+
+                Constants.soundSystem.PlaySound(Constants.soundSystem.LoadSound("audio/Monster_Absorb_Goo.mp3", false), 14, false, Constants.sound14Volume, 0);
             }
         }
     }

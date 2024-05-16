@@ -20,12 +20,12 @@ namespace GXPEngine
 
         public void updateHUD()
         {
-            Console.WriteLine("---");
-            Console.WriteLine(goo);
-            Console.WriteLine(Constants.goo);
+            //Console.WriteLine("---");
+            //Console.WriteLine(goo);
+            //Console.WriteLine(Constants.goo);
             if(goo != Constants.goo)
             {
-                Console.WriteLine("Update");
+                //Console.WriteLine("Update");
                 RemoveChild(gooCounter);
                 goo = Constants.goo;
                 gooCounter = new EasyDraw(288, 32);
