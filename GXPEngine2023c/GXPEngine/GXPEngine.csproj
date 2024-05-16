@@ -97,6 +97,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="PressurePlate.cs" />
     <Compile Include="Projectile.cs" />
+    <Compile Include="SceneSwitcher.cs" />
     <Compile Include="SimplePlatform.cs" />
     <Compile Include="TiledLevel.cs" />
     <Compile Include="UI.cs" />

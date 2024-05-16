@@ -178,6 +178,12 @@ public class Player : AnimationSprite
                     col.other.MoveUntilCollision(velocity.x * deltaTimeFun, 0);
                 }
 
+                if (col.other is SceneSwitcher)
+                {
+                    SceneSwitcher sceneSwitcher = game.FindObjectOfType<SceneSwitcher>();
+                    ((MyGame)game).LoadLevel(sceneSwitcher.nextLevel);
+                }
+
                 float aaa = y + 64 - col.other.y;
                 if (aaa < .150f && aaa > 0) y -= aaa;
                 velocity.x = 0;
