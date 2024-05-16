@@ -24,6 +24,8 @@ public class Projectile : AnimationSprite
     public Collision collision;
     private float deltaTimeFun;
 
+    private FMODSoundSystem soundSystem;
+
     public Projectile(Vec2 vel, Vec2 pos, string fileName = "circle.png", int cols = 1, int rows = 1, int frames = 1) : base(fileName, cols, rows, frames)
     {
         SetOrigin(width/2, height/2);
@@ -43,6 +45,8 @@ public class Projectile : AnimationSprite
             sprite.collider.isTrigger = true;
             AddChild(sprite);
         }
+
+        soundSystem = Constants.soundSystem;
     }
 
 
@@ -202,6 +206,8 @@ public class Projectile : AnimationSprite
                     Vec2 normal = new Vec2(col.normal.x, col.normal.y);
                     velocity.Reflect(normal, Constants.bounciness);
                     bounceCount++;
+                    soundSystem.PlaySound(soundSystem.LoadSound("audio/Projectile_Hit_Sound.mp3", false), 10, false, Constants.sound10Volume, 0);
+                    ///////////////////////////////////////// audio/Projectile_Hit_Sound.mp3
                 }
                 else
                 {
@@ -212,6 +218,8 @@ public class Projectile : AnimationSprite
                     Constants.level.SetChildIndex(this, 1);
                     //Console.WriteLine(col.other.GetType());
                     if (col.other.GetType() == typeof(Movable)) collision = col;
+                    soundSystem.PlaySound(soundSystem.LoadSound("audio/Grappling_Hit.mp3", false), 11, false, Constants.sound11Volume, 0);
+                    ////////////////////////////////////////// audio/Grappling_Hit.mp3
                 }
                 hitSomething = true;
 

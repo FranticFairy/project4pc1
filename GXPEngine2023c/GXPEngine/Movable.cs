@@ -29,7 +29,7 @@ public class Movable : AnimationSprite
         float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
 
 
-        if (Input.GetKeyDown(Key.U)) x -= 50;
+        //if (Input.GetKeyDown(Key.U)) x -= 50;
         if (!childDetected)
         {
             List<GameObject> children = GetChildren();
