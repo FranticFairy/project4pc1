@@ -88,7 +88,6 @@ public class Movable : AnimationSprite
             {
                 Constants.soundSystem.PlaySound(boxSound, 28, false, Constants.sound28Volume, 0);
                 boxSoundPlaying = true;
-                Console.WriteLine("true");
             }
             boxSoundPlayingCD = 5;
         }
@@ -98,7 +97,6 @@ public class Movable : AnimationSprite
             {
                 Constants.soundSystem.PlaySound(boxSound, 28, true, 0, 0);
                 boxSoundPlaying = false;
-                Console.WriteLine("false");
             }
             boxSoundPlayingCD--;
         }

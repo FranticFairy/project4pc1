@@ -182,14 +182,7 @@ public class MyGame : Game
     void Update() 
 	{
         Constants.frameCounter++;
-        if(Constants.frameCounter >= 2500)
-        {
-            Console.WriteLine(GetDiagnostics());
-            Console.WriteLine(Constants.frameCounter);
-            Console.WriteLine(" ");
-            Console.WriteLine(" ");
-            Console.WriteLine(" ");
-        }
+
         if (Constants.dead)
         {
             soundSystem.PlaySound(deathSound, 15, false, Constants.sound15Volume, 0);

@@ -181,7 +181,11 @@ public class Player : AnimationSprite
                 if (col.other is SceneSwitcher)
                 {
                     SceneSwitcher sceneSwitcher = game.FindObjectOfType<SceneSwitcher>();
-                    ((MyGame)game).LoadLevel(sceneSwitcher.nextLevel);
+                    Console.WriteLine("Scene Switcher: " + sceneSwitcher.spawned);
+                    if(sceneSwitcher.spawned == true)
+                    {
+                        ((MyGame)game).LoadLevel(sceneSwitcher.nextLevel);
+                    }
                 }
 
                 float aaa = y + 64 - col.other.y;

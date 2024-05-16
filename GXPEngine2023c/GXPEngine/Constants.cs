@@ -16,8 +16,8 @@ namespace GXPEngine
 
 
         // LEVEL VALUES
-        public static int xBoundarySize = 200;          // (pixels) player distance until scrolling
-        public static int yBoundarySize = 200;          // (pixels) same but y
+        public static int xBoundarySize = 800;          // (pixels) player distance until scrolling
+        public static int yBoundarySize = 500;          // (pixels) same but y
         public static float levelWidth = 2000;          // width of the whole thing (AAAAAAAA)
         public static float levelHeight = 2000;         // HEIGHT AAAAAAA
 
@@ -37,11 +37,11 @@ namespace GXPEngine
 
         // Shooting
         public static float minShootForce = 4f;         // min force applied to proj
-        public static float maxShootForce = 9f;         // max force applied to proj
+        public static float maxShootForce = 13f;         // max force applied to proj
         public static float minShootForceGrapple = 6f;  // min force applied to grapple hook
         public static float maxShootForceGrapple = 13f; // max force applied to grapple hook
         public static float minShootMouseDist = 70f;    // moving mouse closer than this value in pixels to player doesn't decrease power anymore
-        public static float maxShootMouseDist = 300f;   // same but the other side
+        public static float maxShootMouseDist = 400f;   // same but the other side
 
         public static int aimTrajectoryAmount = 5;      // amount of white circles for aim trajectory
         public static int aimTrajectoryDist = 5;        // amount of frames between the circles
@@ -62,15 +62,17 @@ namespace GXPEngine
         public static float gravityProj = .1f;          // projectile gravity value
         public static float bounciness = .98f;          // force given back after bounce. 1 = 100%
         public static int bouncyProjLimit = 3;          // max amount of bouncy proj
-        public static float windPower = 1;              // bigger number = stronger wind
+        public static float windPower = .5f;              // bigger number = stronger wind
         public static float maxProjSpeed = 20f;         // max speed a projectile can have
 
         public static float animProjSpd = .1f;          // projectile animation speed
 
+        // WIND ANIMATION SPEED
+        public static float animWindSpd = .1f;          // wind animation speed
 
         // MAP NAMES FOR TILED
-        public static string level1 = "Level1B.tmx";
-        public static string level2 = "map.tmx";
+        public static string level1 = "Level1Bo.tmx";
+        public static string level2 = "2.tmx";
         public static string level3 = "3.tmx";
         public static string level4 = "4.tmx";
         public static string level5 = "5.tmx";
@@ -103,19 +105,33 @@ namespace GXPEngine
         public static float sound16Volume = 1f;     // start/win music
         public static float sound17Volume = 1f;     // lose music
 
-        /*public static float sound18Volume = 1f;
+        // Ambience sounds (same as background sounds)
+        public static float sound18Volume = 1f;
         public static float sound19Volume = 1f;
         public static float sound20Volume = 1f;
         public static float sound21Volume = 1f;
         public static float sound22Volume = 1f;
-        public static float sound23Volume = 1f;*/
+        public static float sound23Volume = 1f;
+        public static float sound24Volume = 1f;
+
+        public static float sound25Volume = 1f;     // menu and outro song
+        public static float sound26Volume = 1f;     // death song
+
+        public static float sound27Volume = 1f;     // victory noise
+
+        public static float sound28Volume = 1f;     // box noise
+
+        public static float sound29Volume = 1f;     // interface button sound
+
+        public static float sound30Volume = 1f;     // box kill noise (not implemented)
+
 
         public static int frameCounter;
 
         public static UI ui;
 
         public static int goo; //How much Goo does the player spawn with?
-        public static int startGoo = 3; //How much Goo does the player spawn with?
+        public static int startGoo = 8; //How much Goo does the player spawn with?
 
         public static int shotCost = 1; //How much goo is consumed on firing?
         public static int hookCost = 1; //How much goo is consumed upon grappling?
