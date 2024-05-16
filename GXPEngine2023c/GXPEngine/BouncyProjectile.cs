@@ -19,14 +19,14 @@ public class BouncyProjectile : Projectile
     void Update()
     {
         Step();
-        GameObject[] collisions = GetCollisions();
+        /*GameObject[] collisions = GetCollisions();
         for (int i = 0; i < collisions.Length; i++)
         {
             if (collisions[i].GetType() == typeof(Button))
             {
                 stopMoving = true;
             }
-        }
+        }*/
     }
     
 }
