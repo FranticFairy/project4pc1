@@ -177,7 +177,7 @@ public class Player : AnimationSprite
                 {
                     col.other.MoveUntilCollision(velocity.x * deltaTimeFun, 0);
                 }
-
+                /* Commenting out because I can't get this working 
                 if (col.other is SceneSwitcher)
                 {
                     SceneSwitcher sceneSwitcher = game.FindObjectOfType<SceneSwitcher>();
@@ -187,6 +187,7 @@ public class Player : AnimationSprite
                         ((MyGame)game).LoadLevel(sceneSwitcher.nextLevel);
                     }
                 }
+                */
 
                 float aaa = y + 64 - col.other.y;
                 if (aaa < .150f && aaa > 0) y -= aaa;
@@ -531,6 +532,15 @@ public class Player : AnimationSprite
             if (collisions[i].GetType() == typeof(Killer))
             {
                 Constants.dead = true;
+            }
+            if (collisions[i].GetType() == typeof(SceneSwitcher))
+            {
+                SceneSwitcher sceneSwitcher = game.FindObjectOfType<SceneSwitcher>();
+                Console.WriteLine("Scene Switcher: " + sceneSwitcher.spawned);
+                if (sceneSwitcher.spawned == true)
+                {
+                    ((MyGame)game).LoadLevel(sceneSwitcher.nextLevel);
+                }
             }
         }
     }
