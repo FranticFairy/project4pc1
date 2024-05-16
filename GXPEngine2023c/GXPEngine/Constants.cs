@@ -103,12 +103,14 @@ namespace GXPEngine
         public static float sound16Volume = 1f;     // start/win music
         public static float sound17Volume = 1f;     // lose music
 
-        /*public static float sound18Volume = 1f;
+        // Ambience sounds (same as background sounds)
+        public static float sound18Volume = 1f;
         public static float sound19Volume = 1f;
         public static float sound20Volume = 1f;
         public static float sound21Volume = 1f;
         public static float sound22Volume = 1f;
-        public static float sound23Volume = 1f;*/
+        public static float sound23Volume = 1f;
+        public static float sound24Volume = 1f;
 
         public static int frameCounter;
 
