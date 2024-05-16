@@ -30,11 +30,15 @@ internal class TiledLevel : GameObject
         loader.rootObject = this;
         loader.LoadTileLayers(0);
         loader.autoInstance = true;
+        loader.addColliders = false;
         loader.LoadObjectGroups();
 
         Player = FindObjectOfType<Player>();
         Constants.positionPlayer = new Vec2(Player.x + Player.width / 2, Player.y - Player.height / 2);
         Constants.player = Player;
+
+        Constants.levelHeight = loader.map.Height * loader.map.TileHeight;
+        Constants.levelWidth = loader.map.Width * loader.map.TileWidth;
 
         /*
         Map map = MapParser.ReadMap(MapName);
@@ -98,23 +102,10 @@ internal class TiledLevel : GameObject
 
     void checkPuzzles()
     {
-        /*
-        foreach (Collectable item in items)
-        {
-            if (item.spawned == false)
-            {
-                int index = Constants.buttons.FindIndex(a => a == item.linkedButton);
-                if (Constants.buttonStates[index] == true)
-                {
-                    AddChild(item);
-                    item.spawned = true;
-                }
-            }
-        }
-        */
+
     }
 
-    void Update()
+    public void Update()
     {
 
         HandleScroll();
@@ -122,9 +113,20 @@ internal class TiledLevel : GameObject
         Constants.ui.updateHUD();
         foreach (Button button in Constants.buttons)
         {
+
             if (!button.triggered)
             {
+
                 button.checkToggle();
+            }
+        }
+        foreach (PressurePlate plate in Constants.plates)
+        {
+
+            if (!plate.completed)
+            {
+
+                plate.checkToggle();
             }
         }
 

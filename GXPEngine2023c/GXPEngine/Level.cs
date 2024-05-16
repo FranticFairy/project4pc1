@@ -106,18 +106,7 @@ public class Level : GameObject
 
     void checkPuzzles()
     {
-        foreach(Collectable item in items)
-        {
-            if (item.spawned == false)
-            {
-                int index = Constants.buttons.FindIndex(a => a == item.linkedButton);
-                if (Constants.buttonStates[index] == true)
-                {
-                    AddChild(item);
-                    item.spawned = true;
-                }
-            }
-        }
+
     }
 
     void Update()

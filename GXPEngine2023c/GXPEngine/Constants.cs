@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GXPEngine.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -67,15 +68,64 @@ namespace GXPEngine
         public static float animProjSpd = .1f;          // projectile animation speed
 
 
+        // MAP NAMES FOR TILED
+        public static string level1 = "Level1.tmx";
+        public static string level2 = "2.tmx";
+        public static string level3 = "3.tmx";
+        public static string level4 = "4.tmx";
+        public static string level5 = "5.tmx";
+        public static string level6 = "6.tmx";
+        public static string level7 = "7.tmx";
+
+
+        // AUDIO VALUES
+        // Background sounds (number is same as room it should be in)
+        public static float sound1Volume = 1f;
+        public static float sound2Volume = 1f;
+        public static float sound3Volume = 1f;
+        public static float sound4Volume = 1f;
+        public static float sound5Volume = 1f;
+        public static float sound6Volume = 1f;
+        public static float sound7Volume = 1f;
+
+        // Projectile related
+        public static float sound8Volume = 1f;      // shoot bouncy
+        public static float sound9Volume = 1f;      // shoot grapple
+        public static float sound10Volume = 1f;     // proj bounces
+        public static float sound11Volume = 1f;     // proj doesn't bounce
+        public static float sound12Volume = 1f;     // grapple rope active
+
+        // Player
+        public static float sound13Volume = 1f;     // player moving
+        public static float sound14Volume = 1f;     // player absorbing goo
+        public static float sound15Volume = 1f;     // ded
+
+        public static float sound16Volume = 1f;     // start/win music
+        public static float sound17Volume = 1f;     // lose music
+
+        /*public static float sound18Volume = 1f;
+        public static float sound19Volume = 1f;
+        public static float sound20Volume = 1f;
+        public static float sound21Volume = 1f;
+        public static float sound22Volume = 1f;
+        public static float sound23Volume = 1f;*/
+
+        public static int frameCounter;
 
         public static UI ui;
-        //highScore will be reworked later.
-        public static int goo;
+
+        public static int goo; //How much Goo does the player spawn with?
+        public static int startGoo = 3; //How much Goo does the player spawn with?
+
+        public static int shotCost = 1; //How much goo is consumed on firing?
+        public static int hookCost = 1; //How much goo is consumed upon grappling?
 
         public static bool dead = false;
 
         public static List<Button> buttons = new List<Button>();
-        public static List<bool> buttonStates = new List<bool>();
+        public static List<PressurePlate> plates = new List<PressurePlate>();
+
+        public static FMODSoundSystem soundSystem = new FMODSoundSystem();
 
     }
 
