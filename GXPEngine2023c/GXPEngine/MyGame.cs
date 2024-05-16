@@ -28,6 +28,7 @@ public class MyGame : Game
     private IntPtr channel24;
 
     private IntPtr deathSound;
+    private IntPtr winSound;
 
     public MyGame() : base(1920, 1080, false/*, true, 1920, 1080, true*/)
     {
@@ -50,6 +51,7 @@ public class MyGame : Game
         channel24 = soundSystem.CreateStream("audio/Ambient_noise_end_location.mp3", true);
 
         deathSound = soundSystem.LoadSound("audio/Death_Noise.mp3", false);
+        winSound = soundSystem.LoadSound("audio/Victory_noise.mp3", false);
 
         //soundSystem.PlaySound(channel1, 1, false, 0, 0);
         //soundSystem.PlaySound(channel2, 2, false, 0, 0);
@@ -137,6 +139,7 @@ public class MyGame : Game
             if (nextLevel.ToLower() == "win")
             {
                 AddChild(new JustScreen(1));
+                soundSystem.PlaySound(deathSound, 27, false, Constants.sound27Volume, 0);
             }
             else
             {
