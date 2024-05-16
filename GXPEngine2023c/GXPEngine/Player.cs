@@ -40,6 +40,13 @@ public class Player : AnimationSprite
 
     FMODSoundSystem soundSystem;
     private bool walkSoundPlaying;
+    private bool walkSoundNotPlaying;
+    private bool grappleRopeSoundPlaying;
+    private bool grappleRopeSoundNotPlaying;
+
+    private IntPtr moveSound;
+    private IntPtr bounceProjSound;
+    private IntPtr grappleProjSound;
 
     public Player(string fileName = "empty.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
@@ -69,8 +76,12 @@ public class Player : AnimationSprite
         AddChild(animGoo);
         AddChild(animBody);
 
+
         soundSystem = Constants.soundSystem;
-    }
+        moveSound = soundSystem.LoadSound("audio/Monster_Movement.mp3", true);
+        bounceProjSound = soundSystem.LoadSound("audio/Shoot_Projectile.mp3", false);
+        grappleProjSound = soundSystem.LoadSound("audio/Grappling_Sound.mp3", false);
+}
 
     protected override Collider createCollider()    // Custom hitbox THIS MIGHT SCREW THINGS UP
     {
@@ -166,6 +177,17 @@ public class Player : AnimationSprite
                 {
                     col.other.MoveUntilCollision(velocity.x * deltaTimeFun, 0);
                 }
+                /* Commenting out because I can't get this working 
+                if (col.other is SceneSwitcher)
+                {
+                    SceneSwitcher sceneSwitcher = game.FindObjectOfType<SceneSwitcher>();
+                    Console.WriteLine("Scene Switcher: " + sceneSwitcher.spawned);
+                    if(sceneSwitcher.spawned == true)
+                    {
+                        ((MyGame)game).LoadLevel(sceneSwitcher.nextLevel);
+                    }
+                }
+                */
 
                 float aaa = y + 64 - col.other.y;
                 if (aaa < .150f && aaa > 0) y -= aaa;
@@ -191,13 +213,20 @@ public class Player : AnimationSprite
             {
                 if (!walkSoundPlaying)
                 {
-                    soundSystem.PlaySound(soundSystem.LoadSound("audio/Monster_Movement.mp3", true), 13, false, Constants.sound13Volume, 0);
+                    soundSystem.PlaySound(moveSound, 13, false, Constants.sound13Volume, 0);
                     walkSoundPlaying = true;
                 }
+
+                walkSoundNotPlaying = false;
             }
             else
             {
-                soundSystem.PlaySound(soundSystem.LoadSound("audio/Monster_Movement.mp3", false), 13, false, 0, 0);
+                if (!walkSoundNotPlaying)
+                {
+                    soundSystem.PlaySound(moveSound, 13, false, 0, 0);
+                    walkSoundNotPlaying = true;
+                }
+
                 walkSoundPlaying = false;
             }
         }
@@ -256,8 +285,13 @@ public class Player : AnimationSprite
         }
         if (game.FindObjectOfType<GrappleHook>() == null && !grappleActive)
         {
+            if (grappleIsShot)
+            {
+                //Constants.soundSystem.SetChannelPaused(12, true);
+                //Constants.soundSystem.PlaySound(moveSound, 12, true, 0, 0);   // silencing the grapple noise because AAAAA
+
+            }
             grappleIsShot = false;
-            soundSystem.PlaySound(soundSystem.LoadSound("audio/Grappling_Pull.mp3", false), 12, false, 0, 0);   // silencing the grapple noise because AAAAA
         }
 
         // The input part
@@ -290,8 +324,7 @@ public class Player : AnimationSprite
                 {
                     foundProjs[0].LateDestroy();
                 }
-                soundSystem.PlaySound(soundSystem.LoadSound("audio/Shoot_Projectile.mp3", false), 8, false, Constants.sound8Volume, 0);
-                ////////////////////////////////////////////////////// Shoot_Projectile.mp3
+                soundSystem.PlaySound(bounceProjSound, 8, false, Constants.sound8Volume, 0);
 
             }
             else if (Input.GetMouseButtonUp(1))
@@ -300,8 +333,7 @@ public class Player : AnimationSprite
                 grappleIsShot = true;
                 Constants.goo -= Constants.hookCost; //Use up goo when firing.
                 level.SetChildIndex(this, 999); // Making sure the grapple rope is behind player
-                soundSystem.PlaySound(soundSystem.LoadSound("audio/Grappling_Sound.mp3", false), 9, false, Constants.sound9Volume, 0);
-                /////////////////////////////////////////////////////// Grappling_Sound.mp3
+                soundSystem.PlaySound(grappleProjSound, 9, false, Constants.sound9Volume, 0);
             }
         }
 
@@ -500,6 +532,15 @@ public class Player : AnimationSprite
             if (collisions[i].GetType() == typeof(Killer))
             {
                 Constants.dead = true;
+            }
+            if (collisions[i].GetType() == typeof(SceneSwitcher))
+            {
+                SceneSwitcher sceneSwitcher = game.FindObjectOfType<SceneSwitcher>();
+                Console.WriteLine("Scene Switcher: " + sceneSwitcher.spawned);
+                if (sceneSwitcher.spawned == true)
+                {
+                    ((MyGame)game).LoadLevel(sceneSwitcher.nextLevel);
+                }
             }
         }
     }

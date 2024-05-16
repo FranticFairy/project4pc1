@@ -13,6 +13,8 @@ internal class TiledLevel : GameObject
     private Player Player;
     private Killer Killer;
 
+    Sprite background;
+
     public TiledLevel(string MapName)
     {
         TiledLoader loader = new TiledLoader(MapName);
@@ -26,6 +28,8 @@ internal class TiledLevel : GameObject
         loader.autoInstance = true;
         */
 
+        loader.addColliders = false;
+        loader.LoadImageLayers();
         loader.addColliders = true;
         loader.rootObject = this;
         loader.LoadTileLayers(0);
@@ -39,6 +43,8 @@ internal class TiledLevel : GameObject
 
         Constants.levelHeight = loader.map.Height * loader.map.TileHeight;
         Constants.levelWidth = loader.map.Width * loader.map.TileWidth;
+
+
 
         /*
         Map map = MapParser.ReadMap(MapName);
@@ -80,6 +86,9 @@ internal class TiledLevel : GameObject
         Killer = FindObjectOfType<Killer>();
         Player = FindObjectOfType<Player>();
         */
+
+        //background = new Sprite("BG1.png", false, false);
+        //AddChild(background);
     }
 
     public void HandleScroll()

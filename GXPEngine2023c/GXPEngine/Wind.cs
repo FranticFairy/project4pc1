@@ -10,7 +10,7 @@ public class Wind : AnimationSprite
 {
     private Vec2 windDirection;
     private Projectile projectile;
-    public Wind(string fileName = "colors.png", int cols = 1, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
+    public Wind(string fileName = "colors.png", int cols = 1, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows, 10)
     {
         collider.isTrigger = true;
         //scale = 2f;
@@ -38,6 +38,12 @@ public class Wind : AnimationSprite
                 projectile.wind = windDirection;
             }
         }
+
+        // animation wahoo
+        int deltaTimeClamped = Mathf.Min(Time.deltaTime, 40);
+        float deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
+
+        Animate(deltaTimeFun * Constants.animWindSpd);
 
     }
 

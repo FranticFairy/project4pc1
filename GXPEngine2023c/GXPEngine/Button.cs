@@ -20,6 +20,7 @@ public class Button : AnimationSprite
     public float yPos;
     public bool triggered = false;
     public string buttonID;
+    private Sprite toggledButton = new Sprite("PressedButton.png",false,false);
 
     public Button(string imageFile, int columns, int rows, TiledObject tiledObject = null) : base(imageFile, columns, rows)
     {
@@ -29,10 +30,14 @@ public class Button : AnimationSprite
 
         buttonID = tiledObject.GetStringProperty("buttonID", "");
         Constants.buttons.Add(this);
+        toggledButton.visible = false;
+        toggledButton.SetOrigin(toggledButton.width/2,toggledButton.height/2);
+        AddChild(toggledButton);
     }
 
     public void checkToggle()
     {
+        triggered = false;
         GameObject[] collisions = GetCollisions();
         for (int i = 0; i < collisions.Length; i++)
         {
@@ -41,6 +46,8 @@ public class Button : AnimationSprite
 
 
                 triggered = true;
+                alpha = 0;
+                toggledButton.visible = true;
                 int index = Constants.buttons.FindIndex(a => a == this);
 
 
