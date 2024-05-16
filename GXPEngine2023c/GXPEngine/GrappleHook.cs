@@ -19,6 +19,7 @@ public class GrappleHook : Projectile
     public Vec2 deltaPos;
     Vec2 parentPos;
     FMODSoundSystem soundSystem;
+    private IntPtr grapplePullSound;
 
     public GrappleHook(Vec2 vel, Vec2 pos, string fileName = "projectile-animation-spritesheet.png", int cols = 3, int rows = 2, int frames = 6) : base(vel, pos, fileName, cols, rows, frames)
     {
@@ -31,6 +32,8 @@ public class GrappleHook : Projectile
         AddChild(grappleRope);
         SetChildIndex(grappleRope, 0);
         GrappleRopeStuff();
+
+        grapplePullSound = soundSystem.LoadSound("audio/Grappling_Pull.mp3", true);
     }
 
 
@@ -67,7 +70,9 @@ public class GrappleHook : Projectile
         {
             if (hitSomething)
             {
-                soundSystem.PlaySound(soundSystem.LoadSound("audio/Grappling_Pull.mp3", true), 12, false, Constants.sound12Volume, 0);
+                //Constants.soundSystem.PlaySound(grapplePullSound, 12, true, Constants.sound12Volume, 0);
+                //Constants.soundSystem.SetChannelPaused(12, false);
+
                 if (collision != null)
                 {
                     collision.other.SetChildIndex(this, 0);

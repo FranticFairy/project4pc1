@@ -21,6 +21,8 @@ public class Collectable : AnimationSprite
     public string buttonID;
     public string plateGroupID;
 
+    private IntPtr absorbSound;
+
     public Collectable(string imageFile, int columns, int rows, TiledObject tiledObject = null) : base(imageFile, columns, rows)
     {
 
@@ -35,6 +37,7 @@ public class Collectable : AnimationSprite
 
         if(plateGroupID == "" && buttonID == "") { spawned = true; }
 
+        absorbSound = Constants.soundSystem.LoadSound("audio/Monster_Absorb_Goo.mp3", false);
     }
 
     public int collect()
@@ -105,7 +108,7 @@ public class Collectable : AnimationSprite
                 value = 0;
                 LateDestroy();
 
-                Constants.soundSystem.PlaySound(Constants.soundSystem.LoadSound("audio/Monster_Absorb_Goo.mp3", false), 14, false, Constants.sound14Volume, 0);
+                Constants.soundSystem.PlaySound(absorbSound, 14, false, Constants.sound14Volume, 0);
             }
         }
     }

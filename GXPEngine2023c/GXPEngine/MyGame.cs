@@ -19,6 +19,7 @@ public class MyGame : Game
     private IntPtr channel6;
     private IntPtr channel7;
 
+    private IntPtr deathSound;
 
     public MyGame() : base(1920, 1080, false/*, true, 1920, 1080, true*/)
     {
@@ -32,13 +33,15 @@ public class MyGame : Game
         channel6 = soundSystem.CreateStream("audio/Song_long_hallway.mp3", true);
         channel7 = soundSystem.CreateStream("audio/Song_end_location.mp3", true);
 
-        soundSystem.PlaySound(channel1, 1, false, 0, 0);
-        soundSystem.PlaySound(channel2, 2, false, 0, 0);
-        soundSystem.PlaySound(channel3, 3, false, 0, 0);
-        soundSystem.PlaySound(channel4, 4, false, 0, 0);
-        soundSystem.PlaySound(channel5, 5, false, 0, 0);
-        soundSystem.PlaySound(channel6, 6, false, 0, 0);
-        soundSystem.PlaySound(channel7, 7, false, 0, 0);
+        deathSound = soundSystem.LoadSound("audio/Death_Noise.mp3", false);
+
+        //soundSystem.PlaySound(channel1, 1, false, 0, 0);
+        //soundSystem.PlaySound(channel2, 2, false, 0, 0);
+        // soundSystem.PlaySound(channel3, 3, false, 0, 0);
+        //soundSystem.PlaySound(channel4, 4, false, 0, 0);
+        //soundSystem.PlaySound(channel5, 5, false, 0, 0);
+        //soundSystem.PlaySound(channel6, 6, false, 0, 0);
+        //soundSystem.PlaySound(channel7, 7, false, 0, 0);
 
         /*
         // put these wherever or copy the above setup and do the same shit
@@ -70,6 +73,7 @@ public class MyGame : Game
         {
             child.Destroy();
         }
+        
         switch (currentLevel)   // setting sound to 0
         {
             case var value when value == Constants.level1:
@@ -102,6 +106,7 @@ public class MyGame : Game
                 break;
 
         }
+        
     }
 
     void CheckLoadLevel()
@@ -164,16 +169,21 @@ public class MyGame : Game
         if(Constants.frameCounter >= 2500)
         {
             Console.WriteLine(GetDiagnostics());
+            Console.WriteLine(Constants.frameCounter);
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
         }
         if (Constants.dead)
         {
-            soundSystem.PlaySound(soundSystem.LoadSound("audio/Death_Noise.mp3", false), 15, false, Constants.sound15Volume, 0);
+            soundSystem.PlaySound(deathSound, 15, false, Constants.sound15Volume, 0);
             foreach (var child in GetChildren())
 			{
                 DestroyAll();
                 Constants.goo = Constants.startGoo;
             }
-            LoadLevel(Constants.level1);
+            //LoadLevel(Constants.level1);
+            LoadLevel(currentLevel);
             Constants.dead = false;
         }
         if(Constants.level != null)
