@@ -110,6 +110,7 @@ namespace GXPEngine
         public static float sound22Volume = 1f;
         public static float sound23Volume = 1f;*/
 
+        public static int frameCounter;
 
         public static UI ui;
 

@@ -64,9 +64,10 @@ public class MyGame : Game
     void DestroyAll()
     {
         List<GameObject> children = GetChildren();
+        Constants.buttons = new List<Button>();
+        Constants.plates = new List<PressurePlate>();
         foreach (GameObject child in children)
         {
-            Console.WriteLine(child);
             child.Destroy();
         }
         switch (currentLevel)   // setting sound to 0
@@ -126,7 +127,6 @@ public class MyGame : Game
             case var value when value == Constants.level1:
                 //soundSystem.SetChannelVolume(1, Constants.sound1Volume);
                 soundSystem.PlaySound(channel1, 1, false, Constants.sound1Volume, 0);
-                Console.WriteLine(soundSystem.GetChannelVolume(1));
                 break;
             case var value when value == Constants.level2:
                 //soundSystem.SetChannelVolume(2, Constants.sound2Volume);
@@ -160,6 +160,7 @@ public class MyGame : Game
 
     void Update() 
 	{
+        Constants.frameCounter++;
         if (Constants.dead)
         {
             soundSystem.PlaySound(soundSystem.LoadSound("audio/Death_Noise.mp3", false), 15, false, Constants.sound15Volume, 0);
