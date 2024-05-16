@@ -16,8 +16,8 @@ namespace GXPEngine
 
 
         // LEVEL VALUES
-        public static int xBoundarySize = 200;          // (pixels) player distance until scrolling
-        public static int yBoundarySize = 200;          // (pixels) same but y
+        public static int xBoundarySize = 800;          // (pixels) player distance until scrolling
+        public static int yBoundarySize = 500;          // (pixels) same but y
         public static float levelWidth = 2000;          // width of the whole thing (AAAAAAAA)
         public static float levelHeight = 2000;         // HEIGHT AAAAAAA
 
@@ -37,11 +37,11 @@ namespace GXPEngine
 
         // Shooting
         public static float minShootForce = 4f;         // min force applied to proj
-        public static float maxShootForce = 9f;         // max force applied to proj
+        public static float maxShootForce = 13f;         // max force applied to proj
         public static float minShootForceGrapple = 6f;  // min force applied to grapple hook
         public static float maxShootForceGrapple = 13f; // max force applied to grapple hook
         public static float minShootMouseDist = 70f;    // moving mouse closer than this value in pixels to player doesn't decrease power anymore
-        public static float maxShootMouseDist = 300f;   // same but the other side
+        public static float maxShootMouseDist = 400f;   // same but the other side
 
         public static int aimTrajectoryAmount = 5;      // amount of white circles for aim trajectory
         public static int aimTrajectoryDist = 5;        // amount of frames between the circles
@@ -62,15 +62,20 @@ namespace GXPEngine
         public static float gravityProj = .1f;          // projectile gravity value
         public static float bounciness = .98f;          // force given back after bounce. 1 = 100%
         public static int bouncyProjLimit = 3;          // max amount of bouncy proj
-        public static float windPower = 1;              // bigger number = stronger wind
+        public static float windPower = .5f;              // bigger number = stronger wind
         public static float maxProjSpeed = 20f;         // max speed a projectile can have
 
         public static float animProjSpd = .1f;          // projectile animation speed
 
 
         // MAP NAMES FOR TILED
-        public static string level1 = "Level1.tmx";
-        public static string level2 = "map.tmx";
+//<<<<<<< Updated upstream
+        //public static string level1 = "Level1.tmx";
+        //public static string level2 = "map.tmx";
+//=======
+        public static string level1 = "Level1Bo.tmx";
+        public static string level2 = "2.tmx";
+//>>>>>>> Stashed changes
         public static string level3 = "3.tmx";
         public static string level4 = "4.tmx";
         public static string level5 = "5.tmx";
@@ -129,7 +134,7 @@ namespace GXPEngine
         public static UI ui;
 
         public static int goo; //How much Goo does the player spawn with?
-        public static int startGoo = 3; //How much Goo does the player spawn with?
+        public static int startGoo = 8; //How much Goo does the player spawn with?
 
         public static int shotCost = 1; //How much goo is consumed on firing?
         public static int hookCost = 1; //How much goo is consumed upon grappling?

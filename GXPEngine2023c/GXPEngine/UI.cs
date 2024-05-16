@@ -26,7 +26,7 @@ namespace GXPEngine
                 RemoveChild(gooCounter);
                 goo = Constants.goo;
                 gooCounter = new EasyDraw(288, 32);
-                gooCounter.Text("Goo: " + goo);
+                gooCounter.Text("Goo: " + (goo-1));
                 AddChild(gooCounter);
             }
         }
