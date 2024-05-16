@@ -14,7 +14,7 @@ public class SceneSwitcher : AnimationSprite
     public SceneSwitcher(string fileName, int cols, int rows, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
 
-        nextLevel = tiledObject.GetStringProperty("nextLevel", "Level1.tmx");
+        nextLevel = tiledObject.GetStringProperty("nextLevel", "map.tmx");
 
 
     }
