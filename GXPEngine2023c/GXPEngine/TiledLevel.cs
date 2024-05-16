@@ -28,6 +28,8 @@ internal class TiledLevel : GameObject
         loader.autoInstance = true;
         */
 
+        loader.addColliders = false;
+        loader.LoadImageLayers();
         loader.addColliders = true;
         loader.rootObject = this;
         loader.LoadTileLayers(0);
@@ -85,8 +87,8 @@ internal class TiledLevel : GameObject
         Player = FindObjectOfType<Player>();
         */
 
-        background = new Sprite("BG1.png", false, false);
-        AddChild(background);
+        //background = new Sprite("BG1.png", false, false);
+        //AddChild(background);
     }
 
     public void HandleScroll()

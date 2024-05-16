@@ -120,7 +120,7 @@ public class MyGame : Game
             Constants.level = new TiledLevel(nextLevel);
             AddChild(Constants.level);
             Constants.ui = new UI();
-            //AddChild(Constants.ui);
+            AddChild(Constants.ui);
             currentLevel = nextLevel;
             nextLevel = null;
 
