@@ -28,9 +28,9 @@ namespace GXPEngine
         // PLAYER VALUES
 
         // Movement
-        public static float xMaxSpeedPlayer = 5f;       // movement speed
+        public static float xMaxSpeedPlayer = 4f;       // movement speed
         public static float acceleration = .5f;         // movement acceleration
-        public static float deceleration = .1f;         // lower value = more slippery
+        public static float deceleration = .15f;         // lower value = more slippery
         public static float grappleSpeed = 10f;         // speed for pulling self with grapple
         public static float jumpSpeedPlayer = 7f;       // the force propelling you upwards
         public static float gravityPlayer = .2f;        // the force pulling you down again
@@ -49,7 +49,7 @@ namespace GXPEngine
         // Animation                                       bigger value = faster animation
         public static float animPlayerShootingSpd = .5f;// animation speed for shooting
         public static float animPlayerInAirSpd = .1f;   // same for when player is in the air
-        public static float animPlayerWalkingSpd = .1f; // same but walking
+        public static float animPlayerWalkingSpd = .3f; // same but walking
         public static float animPlayerIdleSpd = .1f;    // same but idle (doing nothing)
 
         // No need to change
