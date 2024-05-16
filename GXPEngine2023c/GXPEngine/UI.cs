@@ -20,10 +20,9 @@ namespace GXPEngine
 
         public void updateHUD()
         {
-
             if(goo != Constants.goo)
             {
-
+                
                 RemoveChild(gooCounter);
                 goo = Constants.goo;
                 gooCounter = new EasyDraw(288, 32);

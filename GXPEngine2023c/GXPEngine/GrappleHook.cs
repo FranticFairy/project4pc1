@@ -1,4 +1,5 @@
 ﻿using GXPEngine;
+using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,11 @@ public class GrappleHook : Projectile
     Vec2 playerPos;
     public Vec2 deltaPos;
     Vec2 parentPos;
+    FMODSoundSystem soundSystem;
 
     public GrappleHook(Vec2 vel, Vec2 pos, string fileName = "projectile-animation-spritesheet.png", int cols = 3, int rows = 2, int frames = 6) : base(vel, pos, fileName, cols, rows, frames)
     {
-        
+        soundSystem = Constants.soundSystem;
         collider.isTrigger = true;
         player = Constants.player;
         grappleRope = new AnimationSprite("grappling-slime-animation-spritesheet-3.png", 4, 3, 10);  // GRAPPLE ROPE ANIMATION THING
@@ -34,7 +36,15 @@ public class GrappleHook : Projectile
 
     void Update()
     {
-
+        /*if (Input.GetKeyDown(Key.Y)) Constants.soundSystem.StopChannel(12);
+        if (Constants.soundSystem.ChannelIsPlaying(12))
+        {
+            Console.WriteLine("true");
+        }
+        else
+        {
+            Console.WriteLine("false");
+        }*/
         //if (player == null) player = game.FindObjectOfType<Player>();
 
         if (!hasTriggered) Step();
@@ -47,7 +57,7 @@ public class GrappleHook : Projectile
         }
         else
         {
-            parentPos = new Vec2(parent.x, parent.y);
+            if (parent != null) parentPos = new Vec2(parent.x, parent.y);
             deltaPos = parentPos + ownPos - playerPos;
         }
 
@@ -57,6 +67,7 @@ public class GrappleHook : Projectile
         {
             if (hitSomething)
             {
+                soundSystem.PlaySound(soundSystem.LoadSound("audio/Grappling_Pull.mp3", true), 12, false, Constants.sound12Volume, 0);
                 if (collision != null)
                 {
                     collision.other.SetChildIndex(this, 0);
