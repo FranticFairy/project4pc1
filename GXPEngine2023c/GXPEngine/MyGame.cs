@@ -202,10 +202,10 @@ public class MyGame : Game
             LoadLevel(currentLevel);
             Constants.dead = false;
         }
-        if(Constants.level != null)
+        /*if(Constants.level != null)
         {
             Constants.level.Update();
-        }
+        }*/
     }
 
 	static void Main()                          

@@ -1,4 +1,5 @@
 ﻿using GXPEngine;
+using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,21 @@ public class Movable : AnimationSprite
     private bool childDetected = false;
     private Vec2 deltaPos;
     private Vec2 velocity = new Vec2(0,0);
+    private float oldxPos;
     private float gravity = .1f;
     private bool inAir = false;
+
+    private IntPtr boxSound;
+    private bool boxSoundPlaying;
+    private int boxSoundPlayingCD;
     public Movable(string fileName = "circle.png", int cols = 1, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
         //collider.isTrigger = true;
         //scale = 2f;
         SetOrigin(width / 2, height / 2);
+        oldxPos = x;
 
+        boxSound = Constants.soundSystem.LoadSound("audio/Box_noise.mp3", true);
     }
     
 
@@ -74,6 +82,27 @@ public class Movable : AnimationSprite
         }
         MoveUntilCollision(velocity.x * deltaTimeFun, 0);
 
+        if (oldxPos != x  && !inAir)
+        {
+            if (!boxSoundPlaying)
+            {
+                Constants.soundSystem.PlaySound(boxSound, 28, false, Constants.sound28Volume, 0);
+                boxSoundPlaying = true;
+                Console.WriteLine("true");
+            }
+            boxSoundPlayingCD = 5;
+        }
+        else
+        {
+            if (boxSoundPlaying && boxSoundPlayingCD <= 0) 
+            {
+                Constants.soundSystem.PlaySound(boxSound, 28, true, 0, 0);
+                boxSoundPlaying = false;
+                Console.WriteLine("false");
+            }
+            boxSoundPlayingCD--;
+        }
+        oldxPos = x;
 
     }
 

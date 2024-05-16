@@ -112,6 +112,18 @@ namespace GXPEngine
         public static float sound23Volume = 1f;
         public static float sound24Volume = 1f;
 
+        public static float sound25Volume = 1f;     // menu and outro song
+        public static float sound26Volume = 1f;     // death song
+
+        public static float sound27Volume = 1f;     // victory noise
+
+        public static float sound28Volume = 1f;     // box noise
+
+        public static float sound29Volume = 1f;     // interface button sound
+
+        public static float sound30Volume = 1f;     // box kill noise (not implemented)
+
+
         public static int frameCounter;
 
         public static UI ui;
