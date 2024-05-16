@@ -160,6 +160,11 @@ public class MyGame : Game
 
     void Update() 
 	{
+        if (Input.GetKeyDown(Key.P))
+        {
+            Console.WriteLine(GetDiagnostics());
+        }
+
         if (Constants.dead)
         {
             soundSystem.PlaySound(soundSystem.LoadSound("audio/Death_Noise.mp3", false), 15, false, Constants.sound15Volume, 0);
