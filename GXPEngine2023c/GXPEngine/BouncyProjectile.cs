@@ -27,6 +27,7 @@ public class BouncyProjectile : Projectile
                 stopMoving = true;
             }
         }
+
     }
     
 }

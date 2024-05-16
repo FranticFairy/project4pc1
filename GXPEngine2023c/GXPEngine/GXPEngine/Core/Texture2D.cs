@@ -119,6 +119,7 @@ namespace GXPEngine.Core
 		private void Load(string filename) {
 			_filename = filename;
 			Bitmap bitmap;
+			Console.WriteLine(Constants.frameCounter + ": Loading Image: " + filename);
 			try {
 				bitmap = new Bitmap(filename);
 			} catch {

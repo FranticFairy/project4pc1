@@ -43,7 +43,6 @@ public class Player : AnimationSprite
 
     public Player(string fileName = "empty.png", int cols = 7, int rows = 1, TiledObject tiledObject = null) : base(fileName, cols, rows)
     {
-        Console.WriteLine("MakePlayer");
         alpha = 0;
 
         SetOrigin(width / 2, height / 2);
@@ -90,7 +89,6 @@ public class Player : AnimationSprite
         grappleActive = true;
         grappleAirborne = true;
         velocity = vec.Normalized() * Constants.grappleSpeed;
-        Console.WriteLine(velocity);
     }
 
 
