@@ -53,6 +53,7 @@
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
+    <Compile Include="JustScreen.cs" />
     <Compile Include="Killer.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Movable.cs" />

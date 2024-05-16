@@ -70,7 +70,10 @@ public class MyGame : Game
 
 
         OnAfterStep += CheckLoadLevel;
-        LoadLevel(Constants.level1);
+        //LoadLevel(Constants.level1);
+
+        AddChild(new JustScreen());
+
         Constants.goo = Constants.startGoo;
     }
 
@@ -131,10 +134,17 @@ public class MyGame : Game
         {
             DestroyAll();
             SetSound();
-            Constants.level = new TiledLevel(nextLevel);
-            AddChild(Constants.level);
-            Constants.ui = new UI();
-            AddChild(Constants.ui);
+            if (nextLevel.ToLower() == "win")
+            {
+                AddChild(new JustScreen(1));
+            }
+            else
+            {
+                Constants.level = new TiledLevel(nextLevel);
+                AddChild(Constants.level);
+                Constants.ui = new UI();
+                AddChild(Constants.ui);
+            }
             currentLevel = nextLevel;
             nextLevel = null;
 
@@ -192,7 +202,8 @@ public class MyGame : Game
                 Constants.goo = Constants.startGoo;
             }
             //LoadLevel(Constants.level1);
-            LoadLevel(currentLevel);
+            //LoadLevel(currentLevel);
+            AddChild(new JustScreen(2));
             Constants.dead = false;
         }
         /*if(Constants.level != null)
