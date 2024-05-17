@@ -72,7 +72,7 @@ namespace GXPEngine
 
         // MAP NAMES FOR TILED
         public static string level1 = "Level1B.tmx";
-        public static string level2 = "level1Bo.tmx";
+        public static string level2 = "Level1Bo.tmx";
         public static string level3 = "pipelevel.tmx";
         public static string level4 = "outside.tmx";
         public static string level5 = "5.tmx";
