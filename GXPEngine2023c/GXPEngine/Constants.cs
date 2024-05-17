@@ -71,10 +71,10 @@ namespace GXPEngine
         public static float animWindSpd = .1f;          // wind animation speed
 
         // MAP NAMES FOR TILED
-        public static string level1 = "Level1Bo.tmx";
-        public static string level2 = "2.tmx";
-        public static string level3 = "3.tmx";
-        public static string level4 = "4.tmx";
+        public static string level1 = "Level1B.tmx";
+        public static string level2 = "level1Bo.tmx";
+        public static string level3 = "pipelevel.tmx";
+        public static string level4 = "outside.tmx";
         public static string level5 = "5.tmx";
         public static string level6 = "6.tmx";
         public static string level7 = "7.tmx";
