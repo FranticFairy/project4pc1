@@ -88,7 +88,7 @@ public class Player : AnimationSprite
         // set to half that width and height
         EasyDraw BaseShape = new EasyDraw(256, 128, false); // width and height of hitbox
         BaseShape.SetXY(-128, -64);                         // set to half that width and height
-        BaseShape.Clear(ColorTranslator.FromHtml("#55ff0000"));
+        //BaseShape.Clear(ColorTranslator.FromHtml("#55ff0000"));
         //BaseShape.ClearTransparent();     // Comment this out to see custom hitbox, uncomment to hide
         AddChild(BaseShape);
 
