@@ -519,8 +519,81 @@ public class Player : AnimationSprite
             {
                 Constants.dead = true;
             }
+            resizeGoo();
         }
 
+    }
+
+    void resizeGoo()
+    {
+        switch(Constants.goo)
+        {
+            case 0:
+                animGoo.scale = 0.0f;
+                break;
+            case 1: animGoo.scale = 0.1f;
+                break;
+            case 2:
+                animGoo.scale = 0.15f;
+                break;
+            case 3:
+                animGoo.scale = 0.2f;
+                break;
+            case 4:
+                animGoo.scale = 0.25f;
+                break;
+            case 5:
+                animGoo.scale = 0.3f;
+                break;
+            case 6:
+                animGoo.scale = 0.35f;
+                break;
+            case 7:
+                animGoo.scale = 0.4f;
+                break;
+
+            case 8:
+                animGoo.scale = 0.4f;
+                break;
+            case 9:
+                animGoo.scale = 0.45f;
+                break;
+            case 10:
+                animGoo.scale = 0.5f;
+                break;
+            case 11:
+                animGoo.scale = 0.55f;
+                break;
+            case 12:
+                animGoo.scale = 0.6f;
+                break;
+            case 13:
+                animGoo.scale = 0.65f;
+                break;
+            case 14:
+                animGoo.scale = 0.7f;
+                break;
+            case 15:
+                animGoo.scale = 0.75f;
+                break;
+            case 16:
+                animGoo.scale = 0.8f;
+                break;
+            case 17:
+                animGoo.scale = 0.85f;
+                break;
+            case 18:
+                animGoo.scale = 0.9f;
+                break;
+            case 19:
+                animGoo.scale = 0.95f;
+                break;
+            default:
+                animGoo.scale = 1f;
+                break;
+
+
+        }
     }
 
     void checkCollision()
