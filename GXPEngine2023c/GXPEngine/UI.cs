@@ -66,59 +66,28 @@ namespace GXPEngine
                     gooCounter.scale = 0.1f;
                     break;
                 case 2:
-                    gooCounter.scale = 0.15f;
-                    break;
-                case 3:
                     gooCounter.scale = 0.2f;
                     break;
-                case 4:
-                    gooCounter.scale = 0.25f;
-                    break;
-                case 5:
+                case 3:
                     gooCounter.scale = 0.3f;
                     break;
-                case 6:
-                    gooCounter.scale = 0.35f;
-                    break;
-                case 7:
+                case 4:
                     gooCounter.scale = 0.4f;
                     break;
-
-                case 8:
-                    gooCounter.scale = 0.4f;
-                    break;
-                case 9:
-                    gooCounter.scale = 0.45f;
-                    break;
-                case 10:
+                case 5:
                     gooCounter.scale = 0.5f;
                     break;
-                case 11:
-                    gooCounter.scale = 0.55f;
-                    break;
-                case 12:
+                case 6:
                     gooCounter.scale = 0.6f;
                     break;
-                case 13:
-                    gooCounter.scale = 0.65f;
-                    break;
-                case 14:
+                case 7:
                     gooCounter.scale = 0.7f;
                     break;
-                case 15:
-                    gooCounter.scale = 0.75f;
-                    break;
-                case 16:
+                case 8:
                     gooCounter.scale = 0.8f;
                     break;
-                case 17:
-                    gooCounter.scale = 0.85f;
-                    break;
-                case 18:
+                case 9:
                     gooCounter.scale = 0.9f;
-                    break;
-                case 19:
-                    gooCounter.scale = 0.95f;
                     break;
                 default:
                     gooCounter.scale = 1f;
