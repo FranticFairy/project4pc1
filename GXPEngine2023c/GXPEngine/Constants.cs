@@ -125,7 +125,6 @@ namespace GXPEngine
 
         public static float sound30Volume = 1f;     // box kill noise (not implemented)
 
-
         public static int frameCounter;
 
         public static UI ui;

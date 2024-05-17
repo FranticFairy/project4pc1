@@ -130,7 +130,7 @@
     <property name="spawned" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="67" type="Wind" gid="38" x="1856" y="1920" width="256" height="64"/>
+  <object id="67" type="Wind" gid="38" x="1862" y="1880" width="256" height="64"/>
   <object id="69" gid="28" x="1792" y="1792" width="120" height="130.667" rotation="90"/>
   <object id="70" name="SceneSwitcher" type="SceneSwitcher" gid="34" x="2368" y="2432" width="128" height="128">
    <properties>
