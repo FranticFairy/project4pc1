@@ -26,6 +26,11 @@ public class Player : AnimationSprite
 
     private float deltaTimeFun;
 
+    //private List<AimTrajectory> aimTrajectories = new List<AimTrajectory>();
+    private AimTrajectory[] aimTrajectories = new AimTrajectory[Constants.aimTrajectoryAmount];
+    private List<AimTrajectory> aimTrajectoriesToDestroy = new List<AimTrajectory>();
+    private bool firstThingsDone = false;
+
     // ANIMATIONS
     private bool animShooting;
     private bool animInAir;
@@ -273,24 +278,32 @@ public class Player : AnimationSprite
         return deltaPos.Normalized() * shootPower;
     }
 
+
     void Shooting()
     {
+        //Console.Write(" ");
+        if (level != Constants.level) level = Constants.level;
 
-        level = Constants.level;
-        
-        AimTrajectory[] foundAimTraj = game.FindObjectsOfType<AimTrajectory>();
-        foreach (AimTrajectory aimTrajectory in foundAimTraj)
+        if (!firstThingsDone)
         {
-            aimTrajectory.LateDestroy();
+            for (int i = 0; i < Constants.aimTrajectoryAmount; i++)
+            {
+                if (level != Constants.level) level = Constants.level;
+                aimTrajectories[i] = new AimTrajectory(new Vec2(0, 0), new Vec2(0, 0));
+                aimTrajectories[i].useDeltaTime = false;
+                level.AddChild(aimTrajectories[i]);
+            }
+            firstThingsDone = true;
         }
+
         if (game.FindObjectOfType<GrappleHook>() == null && !grappleActive)
         {
-            if (grappleIsShot)
+            /*if (grappleIsShot)
             {
                 //Constants.soundSystem.SetChannelPaused(12, true);
                 //Constants.soundSystem.PlaySound(moveSound, 12, true, 0, 0);   // silencing the grapple noise because AAAAA
 
-            }
+            }*/
             grappleIsShot = false;
         }
 
@@ -301,19 +314,43 @@ public class Player : AnimationSprite
             {
                 animShooting = true;    // ANIMATION SHOOTING
                 string projType = Input.GetMouseButton(0) ? "bounce" : "grapple";
+                Vec2 projVec = getProjVec(projType);
+
+
                 for (int i = 0; i < Constants.aimTrajectoryAmount; i++)
                 {
-                    level.AddChild(new AimTrajectory(getProjVec(projType), Constants.positionPlayer));
-                    AimTrajectory[] foundAimTrajec = game.FindObjectsOfType<AimTrajectory>();
-                    foreach (AimTrajectory aimTrajec in foundAimTrajec)
+                    aimTrajectories[i].velocity = projVec;
+                    aimTrajectories[i].position = Constants.positionPlayer;
+                    aimTrajectories[i].Step(Constants.aimTrajectoryDist * (i + 1));
+                    aimTrajectories[i].alpha = 1;
+                }
+
+
+
+                //AimTrajectory aimingTrajectory = new AimTrajectory(projVec, Constants.positionPlayer);
+                /*for (int i = 0; i < Constants.aimTrajectoryAmount; i++)
+                {
+                    //AimTrajectory a = new AimTrajectory(projVec, Constants.positionPlayer);
+                    aimTrajectories.Add(new AimTrajectory(projVec, Constants.positionPlayer));
+                    //level.AddChild(aimTrajectories.Last());
+                    /*AimTrajectory[] foundAimTrajec = game.FindObjectsOfType<AimTrajectory>();
+                    //Console.WriteLine(foundAimTrajec);
+                    Console.WriteLine(aimTrajectories.ToArray());
+                    for (int j = 0; j < foundAimTrajec.Length; j++)
                     {
-                        for (int j = 0; j < Constants.aimTrajectoryDist; j++)
+                        foundAimTrajec[j].useDeltaTime = false;
+                        foundAimTrajec[j].Step(Constants.aimTrajectoryDist);
+
+                    }
+                    /*foreach (AimTrajectory aimTrajec in foundAimTrajec)
+                    {
+                        /*for (int j = 0; j < Constants.aimTrajectoryDist; j++)
                         {
                             aimTrajec.useDeltaTime = false;
                             aimTrajec.Step();
-                        }
-                    }
-                }
+                        }/*
+                    //}
+                //}*/
             }
             else if (Input.GetMouseButtonUp(0))
             {
@@ -324,6 +361,7 @@ public class Player : AnimationSprite
                 {
                     foundProjs[0].LateDestroy();
                 }
+                HideAimTraj();
                 soundSystem.PlaySound(bounceProjSound, 8, false, Constants.sound8Volume, 0);
 
             }
@@ -333,10 +371,20 @@ public class Player : AnimationSprite
                 grappleIsShot = true;
                 Constants.goo -= Constants.hookCost; //Use up goo when firing.
                 level.SetChildIndex(this, 999); // Making sure the grapple rope is behind player
+                HideAimTraj();
                 soundSystem.PlaySound(grappleProjSound, 9, false, Constants.sound9Volume, 0);
             }
         }
 
+
+    }
+
+    void HideAimTraj()
+    {
+        for (int i = 0; i < Constants.aimTrajectoryAmount; i++)
+        {
+            aimTrajectories[i].alpha = 0;
+        }
     }
 
     void Animation()
@@ -579,7 +627,7 @@ public class Player : AnimationSprite
             if (collisions[i].GetType() == typeof(SceneSwitcher))
             {
                 SceneSwitcher sceneSwitcher = game.FindObjectOfType<SceneSwitcher>();
-                Console.WriteLine("Scene Switcher: " + sceneSwitcher.spawned);
+                //Console.WriteLine("Scene Switcher: " + sceneSwitcher.spawned);
                 if (sceneSwitcher.spawned == true)
                 {
                     ((MyGame)game).LoadLevel(sceneSwitcher.nextLevel);

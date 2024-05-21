@@ -22,8 +22,8 @@ public class SceneSwitcher : AnimationSprite
         buttonID = tiledObject.GetStringProperty("buttonID", "");
         plateGroupID = tiledObject.GetStringProperty("plateGroupID", "");
         collider.isTrigger = true;
-        Console.WriteLine("AAA");
-        Console.WriteLine(spawned);
+        //Console.WriteLine("AAA");
+        //Console.WriteLine(spawned);
 
     }
 

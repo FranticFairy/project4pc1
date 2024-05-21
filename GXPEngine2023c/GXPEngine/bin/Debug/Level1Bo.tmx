@@ -98,7 +98,7 @@
  </imagelayer>
  <objectgroup id="2" name="Object Layer 1" class="Button">
   <object id="44" type="Player" gid="30" x="640" y="2112" width="128" height="128"/>
-  <object id="45" type="Button" gid="2147483677" x="1856" y="1664" width="128" height="128" rotation="-90">
+  <object id="45" type="Button" gid="2147483677" x="1856" y="1728" width="128" height="128" rotation="-90">
    <properties>
     <property name="buttonID" value="test"/>
    </properties>

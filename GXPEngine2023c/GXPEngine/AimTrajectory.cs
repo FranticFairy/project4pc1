@@ -13,5 +13,11 @@ public class AimTrajectory : Projectile
         scale = 0.25F;
     }
 
+    void Update()
+    {
+
+        //Console.WriteLine("Position and velocity: " + position + " " + velocity);
+    }
+
 
 }

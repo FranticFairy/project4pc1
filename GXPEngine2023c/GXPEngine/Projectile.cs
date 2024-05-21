@@ -16,8 +16,8 @@ public class Projectile : AnimationSprite
     private int bounceCount = 0;
     public bool stopMoving = false;
     public Vec2 wind = new Vec2(0,0);
-    private Vec2 velocity;
-    private Vec2 position;
+    public Vec2 velocity;
+    public Vec2 position;
     private Vec2 oldPosition;
 
     private AnimationSprite sprite;
@@ -48,9 +48,13 @@ public class Projectile : AnimationSprite
             AddChild(sprite);
         }
 
-        soundSystem = Constants.soundSystem;
-        projBounceSound = soundSystem.LoadSound("audio/Projectile_Hit_Sound.mp3", false);
-        projStickSound = soundSystem.LoadSound("audio/Grappling_Hit.mp3", false);
+        if (useDeltaTime)
+        {
+
+            soundSystem = Constants.soundSystem;
+            projBounceSound = soundSystem.LoadSound("audio/Projectile_Hit_Sound.mp3", false);
+            projStickSound = soundSystem.LoadSound("audio/Grappling_Hit.mp3", false);
+        }
     }
 
 
@@ -175,85 +179,95 @@ public class Projectile : AnimationSprite
 
     */
 
-    public void Step()
+    public void Step(int steps = 1)
     {
         //rotation++;
         if (!stopMoving)
         {
-            hitSomething = false;
-            oldPosition = position;
-
-            float deltaTimeClamped = useDeltaTime ? Mathf.Min(Time.deltaTime, 40) : 1000 / 120;
-            deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
-
-            velocity.y += Constants.gravityProj*deltaTimeFun;
-
-            if (wind.Length() > 0)
+            if (!useDeltaTime)
             {
-                velocity += wind*deltaTimeFun*Constants.windPower;
-                wind = new Vec2(0, 0);
+                x = position.x;
+                y = position.y;
             }
-
-            if (velocity.Length() > Constants.maxProjSpeed)
+            
+            for (int i = 0; i < steps; i++)
             {
-                velocity = velocity.Normalized() * Constants.maxProjSpeed;
-            }
-        
-            Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
-            //position.x = x;
-            //position.y = y;
 
-            if (col != null)
-            {
-                if (bounceCount < bounceNumber || !useDeltaTime)
+                hitSomething = false;
+                oldPosition = position;
+
+                float deltaTimeClamped = useDeltaTime ? Mathf.Min(Time.deltaTime, 40) : 1000 / 120;
+                deltaTimeFun = (float)deltaTimeClamped / 1000 * 120;
+
+                velocity.y += Constants.gravityProj*deltaTimeFun;
+
+                if (wind.Length() > 0)
                 {
-                    Vec2 normal = new Vec2(col.normal.x, col.normal.y);
-                    velocity.Reflect(normal, Constants.bounciness);
-                    bounceCount++;
-                    soundSystem.PlaySound(projBounceSound, 10, false, Constants.sound10Volume, 0);
+                    velocity += wind*deltaTimeFun*Constants.windPower;
+                    wind = new Vec2(0, 0);
+                }
+
+                if (velocity.Length() > Constants.maxProjSpeed)
+                {
+                    velocity = velocity.Normalized() * Constants.maxProjSpeed;
+                }
+        
+                Collision col = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
+                //position.x = x;
+                //position.y = y;
+
+                if (col != null)
+                {
+                    if (bounceCount < bounceNumber || !useDeltaTime)
+                    {
+                        Vec2 normal = new Vec2(col.normal.x, col.normal.y);
+                        velocity.Reflect(normal, Constants.bounciness);
+                        bounceCount++;
+                        if (useDeltaTime) soundSystem.PlaySound(projBounceSound, 10, false, Constants.sound10Volume, 0);
+                    }
+                    else
+                    {
+                        stopMoving = true;
+                        velocity = new Vec2(col.normal.x, col.normal.y);
+                        x -= col.normal.x*16;
+                        y -= col.normal.y*16;
+                        Constants.level.SetChildIndex(this, 1);
+                        //Console.WriteLine(col.other.GetType());
+                        if (col.other.GetType() == typeof(Movable)) collision = col;
+                        if (useDeltaTime) soundSystem.PlaySound(projStickSound, 11, false, Constants.sound11Volume, 0);
+                        ////////////////////////////////////////// audio/Grappling_Hit.mp3
+                    }
+                    hitSomething = true;
+
+                }
+
+        
+                //position += velocity * deltaTimeFun;
+
+                /*if (!useDeltaTime)
+                {
+                    Collision collision = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
+                    position.x = x;
+                    position.y = y;
+
+                    if (collision != null)
+                    {
+                        Console.WriteLine(collision.timeOfImpact);
+
+
+                    }
+
                 }
                 else
                 {
-                    stopMoving = true;
-                    velocity = new Vec2(col.normal.x, col.normal.y);
-                    x -= col.normal.x*16;
-                    y -= col.normal.y*16;
-                    Constants.level.SetChildIndex(this, 1);
-                    //Console.WriteLine(col.other.GetType());
-                    if (col.other.GetType() == typeof(Movable)) collision = col;
-                    soundSystem.PlaySound(projStickSound, 11, false, Constants.sound11Volume, 0);
-                    ////////////////////////////////////////// audio/Grappling_Hit.mp3
-                }
-                hitSomething = true;
+                    position += velocity * deltaTimeFun;
+
+                }*/
+
+                //x += velocity.x * deltaTimeFun;
+                //y += velocity.y * deltaTimeFun;
 
             }
-
-        
-            //position += velocity * deltaTimeFun;
-
-            /*if (!useDeltaTime)
-            {
-                Collision collision = MoveUntilCollision(velocity.x * deltaTimeFun, velocity.y * deltaTimeFun);
-                position.x = x;
-                position.y = y;
-
-                if (collision != null)
-                {
-                    Console.WriteLine(collision.timeOfImpact);
-
-
-                }
-
-            }
-            else
-            {
-                position += velocity * deltaTimeFun;
-
-            }*/
-
-            //x += velocity.x * deltaTimeFun;
-            //y += velocity.y * deltaTimeFun;
-
             UpdateScreenPosition();
 
         }
@@ -277,7 +291,6 @@ public class Projectile : AnimationSprite
 
         if (x < 0 || x > 5000 || y < 0 || y > 5000)
         {
-
             LateDestroy();      //WATCH OUT, NEEDS PROPER COLLISIONS
         }
     }
